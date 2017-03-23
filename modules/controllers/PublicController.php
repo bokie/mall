@@ -27,7 +27,7 @@ class PublicController extends Controller
     public function actionLogout()
     {
         Yii::$app->session->removeAll();
-        if (isset(Yii::$app->session['admin']['isLogin'])) {
+        if (!isset(Yii::$app->session['admin']['isLogin'])) {
             $this->redirect(['public/login']);
             Yii::$app->end();
         }
