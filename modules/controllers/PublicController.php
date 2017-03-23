@@ -10,6 +10,8 @@ class PublicController extends Controller
 {
     public function actionLogin()
     {
+        session_start();
+        var_dump($_SESSION);
         $this->layout = false;
         $model = new Admin;
         if (Yii::$app->request->isPost) {
@@ -20,5 +22,15 @@ class PublicController extends Controller
             }
         }
         return $this->render("login", ['model' => $model]);
+    }
+
+    public function actionLogout()
+    {
+        Yii::$app->session->removeAll();
+        if (isset(Yii::$app->session['admin']['isLogin'])) {
+            $this->redirect(['public/login']);
+            Yii::$app->end();
+        }
+        $this->goback();
     }
 }
