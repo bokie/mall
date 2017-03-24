@@ -33,21 +33,20 @@ use yii\helpers\Html;
 <div class="row-fluid login-wrapper">
     <a class="brand" href="index.html"></a>
     <?php $form = ActiveForm::begin([
-            'fieldConfig' => [
-                    'template' => '{input}{error}',
-            ],
+        'fieldConfig' => [
+            'template' => '{input}{error}',
+        ],
     ]); ?>
     <div class="span4 box">
         <div class="content-wrap">
-            <h6>慕课商城 - 后台管理</h6>
-            <?php echo $form->field($model, 'adminuser')->textInput(["class" => "span12", "placeholder" => "管理员账号"]) ?>
-            <?php echo $form->field($model, 'adminpass')->passwordInput(["class" => "span12", "placeholder" => "管理员密码"]) ?>
-            <a href="<?php echo \yii\helpers\Url::to(['public/seekpassword']); ?>" class="forgot">忘记密码?</a>
-            <?php echo $form->field($model, 'rememberMe')->checkbox([
-                'id' => 'remember-me',
-                'template' => '<div class="remember">{input}<label for="remember-me">记住我</label></div>'
-            ]); ?>
-            <?php echo Html::submitButton('登录', ["class" => "btn-glow primary login"])?>
+            <h6>修改密码</h6>
+            <?php echo $form->field($model, 'adminuser')->hiddenInput(); ?>
+            <?php echo $form->field($model,
+                'adminpass')->passwordInput(["class" => "span12", "placeholder" => "新密码"]) ?>
+            <?php echo $form->field($model,
+                'adminpass')->passwordInput(["class" => "span12", "placeholder" => "确认新密码"]) ?>
+            <a href="<?php echo \yii\helpers\Url::to(['public/login']); ?>" class="forgot">返回登录</a>
+            <?php echo Html::submitButton('修改', ["class" => "btn-glow primary login"])?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>
