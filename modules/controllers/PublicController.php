@@ -34,6 +34,7 @@ class PublicController extends Controller
         $this->goback();
     }
 
+    //找回密码提交表单后的处理
     public function actionSeekpassword()
     {
         $this->layout = false;

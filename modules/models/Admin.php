@@ -15,23 +15,40 @@ class Admin extends ActiveRecord
         return "{{%admin}}";
     }
 
+    //创建新用户页面label名称
+    public function attributeLabels()
+    {
+        return [
+            'adminuser' => '管理员账号',
+            'adminemail' => '管理员邮箱',
+            'adminpass' => '密码',
+            'repass' => '确认密码',
+        ];
+    }
+
     public function rules()
     {
         return [
             ['adminuser', 'required', 'message' => '管理员账号不能为空',
-                'on' => ['login', 'seekpass']],
-            ['adminpass', 'required', 'message' => '管理员密码不能为空',
-                'on' => 'login'],
+                'on' => ['login', 'adminadd']],
             ['rememberMe', 'boolean',
                 'on' => 'login'],
             ['adminpass', 'validatePass',
                 'on' => 'login'],
             ['adminemail', 'required', 'message' => '电子邮箱不能为空',
-                'on' => 'seekpass'],
+                'on' => 'adminadd'],
             ['adminemail', 'email', 'message' => '电子邮箱格式不正确',
-                'on' => 'seekpass'],
+                'on' => 'adminadd'],
+            ['adminemail', 'unique', 'message' => '该电子邮箱已被注册',
+                'on' => 'adminadd'],
+            ['adminuser', 'unique', 'message' => '该账号已被注册',
+                'on' => ['adminadd']],
             ['adminemail', 'validateEmail',
                 'on' => 'seekpass'],
+            ['repass', 'required', 'message' => '确认密码不能为空',
+                'on' => 'adminadd'],
+            ['repass', 'compare', 'compareAttribute' => 'adminpass',
+                'message' => '两次密码输入不一致', 'on' => 'adminadd'],
         ];
     }
 
@@ -104,6 +121,20 @@ class Admin extends ActiveRecord
     public function createToken($adminuser, $time)
     {
         return md5(md5($adminuser) . base64_encode(Yii::$app->request->userIP) . md5($time));
+    }
+
+    //注册管理员账号
+    public function reg($data)
+    {
+        $this->scenario = "adminadd";
+        if ($this->load($data) && $this->validate()) { //save()方法： new ?  添加 : 更新
+            $this->adminpass = md5($this->adminpass);
+            if ($this->save(false)) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
 }
