@@ -52,12 +52,18 @@
                             <!-- 添加时间 -->
                             <td><?php echo date('Y-m-d H:i:s', $manager->loginip); ?></td>
                             <td class="align-right">
-                                <a href="/index.php?r=admin%2Fmanage%2Fdel&adminid=1">删除</a></td>
+                                <a href="<?php echo\yii\helpers\Url::to(['manage/del',
+                                    'adminid' => $manager->adminid]); ?>">删除</a></td>
                         </tr>
                     <?php endforeach; ?>
 
                     </tbody>
                 </table>
+                <?php
+                if (Yii::$app->session->hasFlash("info")) {
+                    echo Yii::$app->session->getFlash("info");
+                }
+                ?>
             </div>
             <!-- 分页组件 -->
             <div class="pagination pull-right">

@@ -26,29 +26,54 @@ class Admin extends ActiveRecord
         ];
     }
 
+    //数据验证规则
     public function rules()
     {
         return [
-            ['adminuser', 'required', 'message' => '管理员账号不能为空',
-                'on' => ['login', 'adminadd']],
-            ['rememberMe', 'boolean',
-                'on' => 'login'],
-            ['adminpass', 'validatePass',
-                'on' => 'login'],
-            ['adminemail', 'required', 'message' => '电子邮箱不能为空',
-                'on' => 'adminadd'],
-            ['adminemail', 'email', 'message' => '电子邮箱格式不正确',
-                'on' => 'adminadd'],
-            ['adminemail', 'unique', 'message' => '该电子邮箱已被注册',
-                'on' => 'adminadd'],
-            ['adminuser', 'unique', 'message' => '该账号已被注册',
-                'on' => ['adminadd']],
-            ['adminemail', 'validateEmail',
-                'on' => 'seekpass'],
-            ['repass', 'required', 'message' => '确认密码不能为空',
-                'on' => 'adminadd'],
-            ['repass', 'compare', 'compareAttribute' => 'adminpass',
-                'message' => '两次密码输入不一致', 'on' => 'adminadd'],
+            [
+                'adminuser', 'required', 'message' => '管理员账号不能为空',
+                'on' => ['login', 'adminadd', 'changemail', 'changepass']
+            ],
+            [
+                'adminpass', 'required', 'message' => '管理员密码不能为空',
+                'on' => ['login', 'adminadd', 'changemail', 'changepass']
+            ],
+            [
+                'rememberMe', 'boolean',
+                'on' => 'login'
+            ],
+            [
+                'adminpass', 'validatePass',
+                'on' => ['login', 'changemail'],
+            ],
+            [
+                'adminemail', 'required', 'message' => '电子邮箱不能为空',
+                'on' => ['adminadd', 'changemail']
+            ],
+            [
+                'adminemail', 'email', 'message' => '电子邮箱格式不正确',
+                'on' => ['adminadd', 'changemail']
+            ],
+            [
+                'adminemail', 'unique', 'message' => '该电子邮箱已被注册',
+                'on' => ['adminadd', 'changemail', 'changemail']
+            ],
+            [
+                'adminuser', 'unique', 'message' => '该账号已被注册',
+                'on' => ['adminadd']
+            ],
+            [
+                'adminemail', 'validateEmail',
+                'on' => 'seekpass'
+            ],
+            [
+                'repass', 'required', 'message' => '确认密码不能为空',
+                'on' => ['adminadd', 'changepass']
+            ],
+            [
+                'repass', 'compare', 'compareAttribute' => 'adminpass',
+                'message' => '两次密码输入不一致', 'on' => ['adminadd', 'changepass']
+            ],
         ];
     }
 
@@ -133,6 +158,28 @@ class Admin extends ActiveRecord
                 return true;
             }
             return false;
+        }
+        return false;
+    }
+
+    //修改当前登录账号邮箱
+    public function changeemail($data)
+    {
+        $this->scenario = "changemail";
+        if ($this->load($data) && $this->validate()) {
+            return (bool)$this->updateAll(['adminemail' => $this->adminemail],
+                'adminuser = :user', [':user' => $this->adminuser]);
+        }
+        return false;
+    }
+
+    //修改当前登录账号密码
+    public function changepass($data)
+    {
+        $this->scenario = "changepass";
+        if ($this->load($data) && $this->validate()) {
+            return (bool)$this->updateAll(['adminpass' => md5($this->adminpass)],
+                'adminuser = :user', [':user' => $this->adminuser]);
         }
         return false;
     }
