@@ -1,104 +1,62 @@
 <?php
-
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use yii\db\ActiveRecord;
+use Yii;
+
+class User extends ActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    public $repass;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return "{{%user}}";
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
+    //数据验证规则
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
+        return [
+            ['loginname', 'required', 'message' => '登录用户名不能为空',
+                'on' => ['login']
+            ],
+            [
+                'username', 'required', 'message' => '用户名不能为空',
+                'on' => ['reg']
+            ],
+        ];
+    }
+
+    //设置表单标签名称
+    public function attributeLabels()
+    {
+        return [
+            'username' => '用户名',
+            'userpass' => '用户密码',
+            'repass' => '确认密码',
+            'useremail' => '电子邮箱',
+            'loginname' => '用户名/电子邮箱',
+        ];
+    }
+
+    public function reg($data, $scenario = 'reg')
+    {
+        $this->scenario = $scenario;
+
+        if ($this->load($data) && $this->validate()) {
+            $this->createtime = time();
+            $this->userpass = md5($this->userpass);
+            if ($this->save(false)) {
+                return true;
             }
+            return false;
         }
-
-        return null;
+        return false;
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
+    public function getProfile()
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return $this->hasOne(Profile::className(), ['userid' => 'userid']);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
-    }
 }
