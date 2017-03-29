@@ -154,7 +154,7 @@ class Admin extends ActiveRecord
         $this->scenario = "adminadd";
         if ($this->load($data) && $this->validate()) { //save()方法： new ?  添加 : 更新
             $this->adminpass = md5($this->adminpass);
-            if ($this->save(false)) {
+            if ($this->save(false)) {  //save(false)关闭保存时的数据验证
                 return true;
             }
             return false;

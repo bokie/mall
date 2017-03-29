@@ -7,23 +7,53 @@ use Yii;
 class User extends ActiveRecord
 {
     public $repass;
+    public $loginname;
+    public $rememberMe = true;
 
     public static function tableName()
     {
         return "{{%user}}";
     }
 
+
     //数据验证规则
     public function rules()
     {
         return [
-            ['loginname', 'required', 'message' => '登录用户名不能为空',
+            [
+                'loginname', 'required', 'message' => '登录用户名不能为空',
                 'on' => ['login']
             ],
             [
                 'username', 'required', 'message' => '用户名不能为空',
                 'on' => ['reg']
             ],
+            [
+                'username', 'unique', 'message' => '该用户已被注册',
+                'on' => ['reg']
+            ],
+            [
+                'useremail', 'required', 'message' => '电子邮箱不能为空',
+                'on' => ['reg']
+            ],
+            [
+                'useremail', 'unique', 'message' => '该电子邮箱已被注册',
+                'on' => ['reg']
+            ],
+            [
+                'userpass', 'required', 'message' => '用户密码不能为空',
+                'on' => ['reg']
+            ],
+            [
+                'repass', 'required', 'message' => '确认密码不能为空',
+                'on' => ['reg']
+            ],
+            [
+                'repass', 'compare', 'compareAttribute' => 'userpass',
+                'message' => '两次密码输入不一致',
+                'on' => ['reg']
+            ],
+
         ];
     }
 

@@ -13,7 +13,7 @@ class UserController extends CommonController
 {
     public function actionUsers()
     {
-        $model = User::find()->joinWith("profile");
+        $model = User::find()->joinWith("profile"); //关联数据表%user和%profile | profile => User::getProfile
         $count = $model->count();
         $pageSize = Yii::$app->params['pageSize']['user']; //引用params参数配置文件中预设的参数
         $pager = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
