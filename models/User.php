@@ -53,8 +53,35 @@ class User extends ActiveRecord
                 'message' => '两次密码输入不一致',
                 'on' => ['reg']
             ],
+            [
+                'userpass', 'validatePass',
+                'on' => ['login']
+            ],
 
         ];
+    }
+
+    //验证用户登录数据
+    public function validatePass()
+    {
+        if ( ! $this->hasErrors() ) {
+            $loginname  = "username";
+            //登录名为邮箱
+            if (preg_match('/@/', $this->loginname)) {
+                $loginname = "useremail";
+            }
+            $data = self::find()->where(
+                $loginname . "= :loginname and userpass = :pass", [
+                    ':loginname' => $this->loginname,
+                    ':pass' => md5($this->userpass)
+                ]
+            )->one();
+
+            //查询结果判断
+            if (is_null($data)) {
+                $this->addError("userpass", "用户名或密码错误");
+            }
+        }
     }
 
     //设置表单标签名称
@@ -82,6 +109,20 @@ class User extends ActiveRecord
             return false;
         }
         return false;
+    }
+
+    //登录方法
+    public function login($data)
+    {
+        $this->scenario = "login";
+        if ($this->load($data) && $this->validate()) {
+            $lifetime = $this->rememberMe ? 24*3600 : 0; //如果保存登录状态session有效时间一天
+            $session = Yii::$app->session;
+            session_set_cookie_params($lifetime);
+            $session['loginname'] = $this->loginname;
+            $session['isLogin'] = 1;
+            return (bool)$session['isLogin'];
+        }
     }
 
     public function getProfile()
