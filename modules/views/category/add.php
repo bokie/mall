@@ -2,6 +2,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 ?>
+
 <link rel="stylesheet" href="assets/admin/css/compiled/new-user.css" type="text/css" media="screen" />
 <!-- main container -->
 <div class="content">

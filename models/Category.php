@@ -43,7 +43,7 @@ class Category extends ActiveRecord
     public function add($data)
     {
         $data['Category']['createtime'] = time(); //需添加规则才能保存？ 要添加表名 表名首字母要大写
-        if ( $this->load($data) && $this->save() ) {
+        if ($this->load($data) && $this->save()) {
             return true;
         }
         return false;
@@ -64,7 +64,7 @@ class Category extends ActiveRecord
     {
         $tree = [];
         foreach ($cates as $cate) {
-            if ( $cate['parentid'] == $pid ) {
+            if ($cate['parentid'] == $pid) {
                 $tree[] = $cate;
                 $tree = array_merge($tree, $this->getTree($cates, $cate['cateid']));
             }
@@ -74,21 +74,46 @@ class Category extends ActiveRecord
     }
 
     //添加分类前缀
-    public function setPrefix($data, $prefix = "|-----")
+    public function setPrefix($data, $p = "|-----")
     {
         $tree = [];
-        $num = 1;
-        $prefix = [
-            0 => 1,
-        ];
-        while($val = current($data)) {
-            $key = key($data);
-            if ($key > 0) {
-                if () {
+        $num = 1;  //添加前缀的数量
+        $prefix = [0 => 1];// 默认添加一个前缀
 
+        while ( $val = current($data) ) {
+            $key = key($data);
+            if ( $key > 0 ) {
+                if ( $data[$key - 1]['parentid'] != $val['parentid'] ) {
+                    $num++;
                 }
             }
+            if ( array_key_exists($val['parentid'], $prefix) ) {
+                $num = $prefix[$val['parentid']];
+            }
+
+            $val['title'] = str_repeat($p, $num).$val['title'];
+            $prefix[$val['parentid']] = $num;
+            $tree[] = $val;
+            next($data);
         }
+
+        return $tree;
+    }
+
+    //获得优化好的分类树（用于 $list 下拉列表）
+    public function getOptions()
+    {
+        $data = $this->getData();
+        $tree = $this->getTree($data);
+        $tree = $this->setPrefix($tree);
+        $options = ['添加到一级分类目录'];
+
+        foreach ( $tree as $cate ) {
+            $options[$cate['cateid']] = $cate['title'];
+        }
+
+        return $options;
+
     }
 
 }

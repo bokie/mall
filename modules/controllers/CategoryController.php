@@ -16,8 +16,6 @@ class CategoryController extends Controller
 
     public function actionAdd()
     {
-        $list = ['一级分类'];
-
         $model = new Category();
         if ( Yii::$app->request->isPost ) {
             $post = Yii::$app->request->post();
@@ -26,11 +24,15 @@ class CategoryController extends Controller
             }
         }
 
-        //分类数据
-        $cates = $model->getData();
-        var_dump($cates);
+        //分类数据调试信息
+//        $cates = $model->getData();
+//        var_dump($cates);
 //        $tree = $model->getTree($cates);
 //        var_dump($tree);
+
+        //获得分类
+        $list = $model->getOptions();
+
         $this->layout = "layout1";
         return $this->render("add", ['list' => $list, 'model' => $model]);
     }
