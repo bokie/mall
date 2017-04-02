@@ -116,4 +116,11 @@ class Category extends ActiveRecord
 
     }
 
+    //获取分类列表
+    public function getTreeList()
+    {
+        $data = $this->getData();
+        $tree = $this->getTree($data);
+        return $tree = $this->setPrefix($tree);
+    }
 }
