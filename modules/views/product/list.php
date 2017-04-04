@@ -37,12 +37,12 @@
                         <th class="span2 sortable">
                             <span class="line"></span>促销价
                         </th>
-                        <th class="span2 sortable">
+                        <!--<th class="span2 sortable">
                             <span class="line"></span>是否上架
                         </th>
                         <th class="span2 sortable">
                             <span class="line"></span>是否推荐
-                        </th>
+                        </th>-->
 
                         <th class="span3 sortable align-right">
                             <span class="line"></span>操作
@@ -74,20 +74,20 @@
                             <td>
                                 <?php echo $product->saleprice; ?>
                             </td>
-                            <td>
-                                <?php $on = ['下架', '上架'] ?>
-                                <?php echo $on[$product->ison]; ?>
+                          <!--  <td>
+                                <?php /*$on = ['下架', '上架'] */?>
+                                <?php /*echo $on[$product->ison]; */?>
                             </td>
                             <td>
-                                <?php $on = ['不推荐', '推荐'] ?>
-                                <?php echo $on[$product->istui]; ?>
-                            </td>
+                                <?php /*$on = ['不推荐', '推荐'] */?>
+                                <?php /*echo $on[$product->istui]; */?>
+                            </td>-->
 
                             <td class="align-right">
                                 <a href="<?php echo yii\helpers\Url::to(['product/mod', 'productid' => $product->productid]); ?>">编辑</a>
-                                <a href="<?php echo yii\helpers\Url::to(['product/on', 'productid' => $product->productid]); ?>">上架</a>
-                                <a href="<?php echo yii\helpers\Url::to(['product/off', 'productid' => $product->productid]); ?>">下架</a>
                                 <a href="<?php echo yii\helpers\Url::to(['product/del', 'productid' => $product->productid]); ?>">删除</a>
+                                <!--                                <a href="--><?php //echo yii\helpers\Url::to(['product/on', 'productid' => $product->productid]); ?><!--">上架</a>-->
+                                <!--                                <a href="--><?php //echo yii\helpers\Url::to(['product/off', 'productid' => $product->productid]); ?><!--">下架</a>-->
                             </td>
                         </tr>
                     <?php endforeach; ?>
