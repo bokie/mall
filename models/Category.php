@@ -123,4 +123,24 @@ class Category extends ActiveRecord
         $tree = $this->getTree($data);
         return $tree = $this->setPrefix($tree);
     }
+
+    //获取首页菜单列表数据
+    public static function getMenu()
+    {
+        //获取一级分类数据
+        $top = self::find()->where(
+            "parentid = :pid", [':pid' => 0]
+        )->limit(11)->orderBy('createtime asc')->asArray()->all();
+
+        //获取二级分类数据
+        $data = [];
+        foreach ( (array)$top as $k => $cate ) {
+            $cate['children'] = self::find()->where(
+                "parentid = :pid", [':pid' => $cate['cateid']]
+            )->limit(10)->asArray()->all();
+            $data[$k] = $cate;
+        }
+
+        return $data;
+    }
 }
