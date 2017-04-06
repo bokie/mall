@@ -7,7 +7,7 @@
                     <div id="owl-single-product">
                         <div class="single-product-gallery-item" id="slide1">
                             <a data-rel="prettyphoto" href="images/products/product-gallery-01.jpg">
-                                <img class="img-responsive" alt="" src="assets/images/blank.gif" data-echo="assets/images/products/product-gallery-01.jpg" />
+                                <img class="img-responsive" alt="" src="<?php echo $product['cover']; ?>"/>
                             </a>
                         </div><!-- /.single-product-gallery-item -->
 
@@ -82,16 +82,16 @@
                     <div class="star-holder inline"><div class="star" data-score="4"></div></div>
                     <div class="availability"><label>存货:</label><span class="available">  现货</span></div>
 
-                    <div class="title"><a href="#">VAIO fit laptop - windows 8 SVF14322CXW</a></div>
-                    <div class="brand">sony</div>
+                    <div class="title"><a href="#"><?php echo $product['title'];?></a></div>
+                    <div class="brand"></div>
 
                     <div class="excerpt">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare turpis non risus semper dapibus. Quisque eu vehicula turpis. Donec sodales lacinia eros, sit amet auctor tellus volutpat non.</p>
+                        <p><?php echo $product['descr']; ?></p>
                     </div>
 
                     <div class="prices">
-                        <div class="price-current">$1740.00</div>
-                        <div class="price-prev">$2199.00</div>
+                        <div class="price-current"><?php echo $product['price'];?></div>
+                        <div class="price-prev"></div>
                     </div>
 
                     <div class="qnt-holder">

@@ -34,7 +34,7 @@ class Product extends ActiveRecord
             'cover'  => '图片封面',
             'pics'   => '商品图片',
             'ison'   => '是否上架',
-            'istui'   => '是否推荐',
+            'isreco'   => '是否推荐',
         ];
     }
 

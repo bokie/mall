@@ -44,7 +44,7 @@
         <div class="container">
             <div class="col-xs-12 col-sm-6 no-margin">
                 <ul>
-                    <li><a href="index.html">首页</a></li>
+                    <li><a href="<?php echo \yii\helpers\Url::to(['index/index']); ?>">首页</a></li>
                     <li><a href="category-grid.html">所有分类</a></li>
                     <li><a href="cart.html">我的购物车</a></li>
                     <li><a href="orders.html">我的订单</a></li>
@@ -73,7 +73,7 @@
             <div class="col-xs-12 col-sm-12 col-md-3 logo-holder">
                 <!-- ============================================================= LOGO ============================================================= -->
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="<?php echo \yii\helpers\Url::to(['index/index']); ?>">
                         <img alt="logo" src="assets/images/logo.PNG" width="233" height="54"/>
                     </a>
                 </div><!-- /.logo -->
@@ -226,294 +226,20 @@
                     </div><!-- /.navbar-header -->
                     <div class="collapse navbar-collapse" id="mc-horizontal-menu-collapse">
                         <ul class="nav navbar-nav">
+                            <?php foreach ( $this->params['menu'] as $top ) : ?>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">电子产品</a>
+                                <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+                                    <?php echo $top['title']; ?>
+                                </a>
                                 <ul class="dropdown-menu">
-                                    <li><div class="yamm-content">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Laptops &amp; Notebooks</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound </a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Computers &amp; Laptops</h2>
-                                                    <ul>
-                                                        <li><a href="#">Computer Cases &amp; Accessories</a></li>
-                                                        <li><a href="#">CPUs, Processors</a></li>
-                                                        <li><a href="#">Fans, Heatsinks &amp; Cooling</a></li>
-                                                        <li><a href="#">Graphics, Video Cards</a></li>
-                                                        <li><a href="#">Interface, Add-On Cards</a></li>
-                                                        <li><a href="#">Laptop Replacement Parts</a></li>
-                                                        <li><a href="#">Memory (RAM)</a></li>
-                                                        <li><a href="#">Motherboards</a></li>
-                                                        <li><a href="#">Motherboard &amp; CPU Combos</a></li>
-                                                        <li><a href="#">Motherboard Components &amp; Accs</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Dekstop Parts</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound</a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-                                            </div><!-- /.row -->
-                                        </div><!-- /.yamm-content --></li>
+                                    <?php foreach ( $top['children'] as $child ) : ;?>
+                                    <li><a href="<?php echo \yii\helpers\Url::to(['product/index', 'cateid' => $child['cateid']]); ?>"><?php echo $child['title']; ?></a></li>
+                                    <?php endforeach; ?>
                                 </ul>
                             </li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">电子产品</a>
-                                <ul class="dropdown-menu">
-                                    <li><div class="yamm-content">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Laptops &amp; Notebooks</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound </a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
+                            <?php endforeach; ?>
 
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Computers &amp; Laptops</h2>
-                                                    <ul>
-                                                        <li><a href="#">Computer Cases &amp; Accessories</a></li>
-                                                        <li><a href="#">CPUs, Processors</a></li>
-                                                        <li><a href="#">Fans, Heatsinks &amp; Cooling</a></li>
-                                                        <li><a href="#">Graphics, Video Cards</a></li>
-                                                        <li><a href="#">Interface, Add-On Cards</a></li>
-                                                        <li><a href="#">Laptop Replacement Parts</a></li>
-                                                        <li><a href="#">Memory (RAM)</a></li>
-                                                        <li><a href="#">Motherboards</a></li>
-                                                        <li><a href="#">Motherboard &amp; CPU Combos</a></li>
-                                                        <li><a href="#">Motherboard Components &amp; Accs</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Dekstop Parts</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound</a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-                                            </div><!-- /.row -->
-                                        </div><!-- /.yamm-content --></li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">电子产品</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Computer Cases &amp; Accessories</a></li>
-                                    <li><a href="#">CPUs, Processors</a></li>
-                                    <li><a href="#">Fans, Heatsinks &amp; Cooling</a></li>
-                                    <li><a href="#">Graphics, Video Cards</a></li>
-                                    <li><a href="#">Interface, Add-On Cards</a></li>
-                                    <li><a href="#">Laptop Replacement Parts</a></li>
-                                    <li><a href="#">Memory (RAM)</a></li>
-                                    <li><a href="#">Motherboards</a></li>
-                                    <li><a href="#">Motherboard &amp; CPU Combos</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">电子产品</a>
-                                <ul class="dropdown-menu">
-                                    <li><div class="yamm-content">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Laptops &amp; Notebooks</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound </a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Computers &amp; Laptops</h2>
-                                                    <ul>
-                                                        <li><a href="#">Computer Cases &amp; Accessories</a></li>
-                                                        <li><a href="#">CPUs, Processors</a></li>
-                                                        <li><a href="#">Fans, Heatsinks &amp; Cooling</a></li>
-                                                        <li><a href="#">Graphics, Video Cards</a></li>
-                                                        <li><a href="#">Interface, Add-On Cards</a></li>
-                                                        <li><a href="#">Laptop Replacement Parts</a></li>
-                                                        <li><a href="#">Memory (RAM)</a></li>
-                                                        <li><a href="#">Motherboards</a></li>
-                                                        <li><a href="#">Motherboard &amp; CPU Combos</a></li>
-                                                        <li><a href="#">Motherboard Components &amp; Accs</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Dekstop Parts</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound</a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-                                            </div><!-- /.row -->
-                                        </div><!-- /.yamm-content --></li>
-                                </ul>
-                            </li>
-
-
-                            <li class="dropdown yamm-fw">
-                                <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">电子产品</a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <div class="yamm-content">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-3">
-                                                    <h2>Laptops &amp; Notebooks</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound </a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-3">
-                                                    <h2>Computers &amp; Laptops</h2>
-                                                    <ul>
-                                                        <li><a href="#">Computer Cases &amp; Accessories</a></li>
-                                                        <li><a href="#">CPUs, Processors</a></li>
-                                                        <li><a href="#">Fans, Heatsinks &amp; Cooling</a></li>
-                                                        <li><a href="#">Graphics, Video Cards</a></li>
-                                                        <li><a href="#">Interface, Add-On Cards</a></li>
-                                                        <li><a href="#">Laptop Replacement Parts</a></li>
-                                                        <li><a href="#">Memory (RAM)</a></li>
-                                                        <li><a href="#">Motherboards</a></li>
-                                                        <li><a href="#">Motherboard &amp; CPU Combos</a></li>
-                                                        <li><a href="#">Motherboard Components &amp; Accs</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-3">
-                                                    <h2>Desktop Parts</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound</a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-3">
-                                                    <h2>Laptops &amp; Notebooks</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound </a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-                                            </div><!-- /.row -->
-                                        </div><!-- /.yamm-content -->
-                                    </li>
-                                </ul>
-                            </li><!-- /.yamm-fw -->
-
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">电子产品</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Motherboard Components &amp; Accs</a></li>
-                                    <li><a href="#">Power Supplies Power</a></li>
-                                    <li><a href="#">Power Supply TestersSound </a></li>
-                                    <li><a href="#">Sound Cards (Internal)</a></li>
-                                    <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                    <li><a href="#">Other</a></li>
-                                </ul>
-                            </li>
-
-
-                            <li class="dropdown hidden-md">
-                                <a href="#" class="dropdown-toggle" data-hover="dropdown">电子产品</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Laptops &amp; Notebooks</a></li>
-                                    <li><a href="#">RTV</a></li>
-                                    <li><a href="#">TV &amp; Audio</a></li>
-                                    <li><a href="#">Gadgets</a></li>
-                                    <li><a href="#">Cameras</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown navbar-right hidden-md">
-                                <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">电子产品</a>
-                                <ul class="dropdown-menu">
-                                    <li><div class="yamm-content">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Laptops &amp; Notebooks</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound </a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Computers &amp; Laptops</h2>
-                                                    <ul>
-                                                        <li><a href="#">Computer Cases &amp; Accessories</a></li>
-                                                        <li><a href="#">CPUs, Processors</a></li>
-                                                        <li><a href="#">Fans, Heatsinks &amp; Cooling</a></li>
-                                                        <li><a href="#">Graphics, Video Cards</a></li>
-                                                        <li><a href="#">Interface, Add-On Cards</a></li>
-                                                        <li><a href="#">Laptop Replacement Parts</a></li>
-                                                        <li><a href="#">Memory (RAM)</a></li>
-                                                        <li><a href="#">Motherboards</a></li>
-                                                        <li><a href="#">Motherboard &amp; CPU Combos</a></li>
-                                                        <li><a href="#">Motherboard Components &amp; Accs</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-
-                                                <div class="col-xs-12 col-sm-4">
-                                                    <h2>Dekstop Parts</h2>
-                                                    <ul>
-                                                        <li><a href="#">Power Supplies Power</a></li>
-                                                        <li><a href="#">Power Supply Testers Sound</a></li>
-                                                        <li><a href="#">Sound Cards (Internal)</a></li>
-                                                        <li><a href="#">Video Capture &amp; TV Tuner Cards</a></li>
-                                                        <li><a href="#">Other</a></li>
-                                                    </ul>
-                                                </div><!-- /.col -->
-                                            </div><!-- /.row -->
-                                        </div><!-- /.yamm-content --></li>
-                                </ul>
-                            </li>
                         </ul><!-- /.navbar-nav -->
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.navbar -->
