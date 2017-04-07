@@ -3,18 +3,23 @@
             <!-- ========================================= CONTENT ========================================= -->
             <div class="col-xs-12 col-md-9 items-holder no-margin">
 
+                <?php foreach ( (array)$data as $k => $product ) : ?>
+
                 <div class="row no-margin cart-item">
                     <div class="col-xs-12 col-sm-2 no-margin">
                         <a href="#" class="thumb-holder">
-                            <img class="lazy" alt="" src="assets/images/products/product-small-01.jpg" />
+                            <img class="lazy" alt="" src="<?php echo $product['cover']; ?>-coversmall" />
                         </a>
                     </div>
 
                     <div class="col-xs-12 col-sm-5 ">
                         <div class="title">
-                            <a href="#">white lumia 9001</a>
+                            <a href="<?php echo \yii\helpers\Url::to([
+                                    'product/detail', 'productid' => $product['productid']]); ?>">
+                                <?php echo $product['title']; ?>
+                            </a>
                         </div>
-                        <div class="brand">sony</div>
+<!--                        <div class="brand">sony</div>-->
                     </div>
 
                     <div class="col-xs-12 col-sm-3 no-margin">
@@ -22,7 +27,7 @@
                             <div class="le-quantity">
                                 <form>
                                     <a class="minus" href="#reduce"></a>
-                                    <input name="quantity" readonly="readonly" type="text" value="1" />
+                                    <input name="quantity" id="<?php echo $product['cartid']; ?>" readonly="readonly" type="text" value="<?php echo $product['productnum']; ?>" />
                                     <a class="plus" href="#add"></a>
                                 </form>
                             </div>
@@ -31,113 +36,14 @@
 
                     <div class="col-xs-12 col-sm-2 no-margin">
                         <div class="price">
-                            $2000.00
+                            <?php echo $product['price']; ?>
                         </div>
                         <a class="close-btn" href="#"></a>
                     </div>
                 </div><!-- /.cart-item -->
 
-                <div class="row no-margin cart-item">
-                    <div class="col-xs-12 col-sm-2 no-margin">
-                        <a href="#" class="thumb-holder">
-                            <img class="lazy" alt="" src="assets/images/products/product-small-01.jpg" />
-                        </a>
-                    </div>
+                <?php endforeach; ?>
 
-                    <div class="col-xs-12 col-sm-5">
-                        <div class="title">
-                            <a href="#">white lumia 9001 </a>
-                        </div>
-                        <div class="brand">sony</div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-3 no-margin">
-                        <div class="quantity">
-                            <div class="le-quantity">
-                                <form>
-                                    <a class="minus" href="#reduce"></a>
-                                    <input name="quantity" readonly="readonly" type="text" value="1" />
-                                    <a class="plus" href="#add"></a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-2 no-margin">
-                        <div class="price">
-                            $2000.00
-                        </div>
-                        <a class="close-btn" href="#"></a>
-                    </div>
-                </div><!-- /.cart-item -->
-
-                <div class="row no-margin cart-item">
-                    <div class="col-xs-12 col-sm-2 no-margin">
-                        <a href="#" class="thumb-holder">
-                            <img class="lazy" alt="" src="assets/images/products/product-small-01.jpg" />
-                        </a>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-5">
-                        <div class="title">
-                            <a href="#">white lumia 9001 </a>
-                        </div>
-                        <div class="brand">sony</div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-3 no-margin">
-                        <div class="quantity">
-                            <div class="le-quantity">
-                                <form>
-                                    <a class="minus" href="#reduce"></a>
-                                    <input name="quantity" readonly="readonly" type="text" value="1" />
-                                    <a class="plus" href="#add"></a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-2 no-margin">
-                        <div class="price">
-                            $2000.00
-                        </div>
-                        <a class="close-btn" href="#"></a>
-                    </div>
-                </div><!-- /.cart-item -->
-
-                <div class="row no-margin cart-item">
-                    <div class="col-xs-12 col-sm-2 no-margin">
-                        <a href="#" class="thumb-holder">
-                            <img class="lazy" alt="" src="assets/images/products/product-small-01.jpg" />
-                        </a>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-5">
-                        <div class="title">
-                            <a href="#">white lumia 9001 </a>
-                        </div>
-                        <div class="brand">sony</div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-3 no-margin">
-                        <div class="quantity">
-                            <div class="le-quantity">
-                                <form>
-                                    <a class="minus" href="#reduce"></a>
-                                    <input name="quantity" readonly="readonly" type="text" value="1" />
-                                    <a class="plus" href="#add"></a>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-2 no-margin">
-                        <div class="price">
-                            $2000.00
-                        </div>
-                        <a class="close-btn" href="#"></a>
-                    </div>
-                </div><!-- /.cart-item -->
             </div>
             <!-- ========================================= CONTENT : END ========================================= -->
 

@@ -12,6 +12,10 @@ class CommonController extends Controller
      */
     public function init()
     {
+        //调试信息，打印session
+        session_start();
+        var_dump($_SESSION);
+
         //获取菜单数据
         $menu = Category::getMenu();
 
