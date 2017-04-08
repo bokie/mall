@@ -4,6 +4,9 @@ namespace app\controllers;
 use yii\web\Controller;
 use app\models\Product;
 use app\models\Category;
+use Yii;
+use app\models\User;
+use app\models\Cart;
 
 class CommonController extends Controller
 {
@@ -16,6 +19,8 @@ class CommonController extends Controller
         session_start();
         var_dump($_SESSION);
 
+
+
         //获取菜单数据
         $menu = Category::getMenu();
 
@@ -24,6 +29,7 @@ class CommonController extends Controller
 
         $data = [];
         $data['products'] = [];
+        //商品总价
         $total = 0;
 
     }

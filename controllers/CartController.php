@@ -95,4 +95,15 @@ class CartController extends CommonController
         return $this->redirect(['cart/index']);
 
     }
+
+    /**
+     * @return \yii\web\Response 跳转回购物车页面
+     */
+    public function actionDel()
+    {
+        $cartid = Yii::$app->request->get("cartid");
+        Cart::deleteAll('cartid = :cid', [':cid' => $cartid]);
+        return $this->redirect(['cart/index']);
+    }
+
 }
