@@ -7,6 +7,10 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
+use app\models\OrderDetail;
+use app\models\Product;
+use app\models\Category;
+
 class Order extends ActiveRecord
 {
     // 定义订单状态码
@@ -20,6 +24,16 @@ class Order extends ActiveRecord
     public static function tableName()
     {
         return "{{%order}}";
+    }
+
+    public function rules()
+    {
+        return [
+            [['userid', 'status'], 'required', 'on' => ['add']],
+            [['addressid', 'expressid', 'amount', 'status'], 'required', 'on' => ['update']],
+            ['expressno', 'required', 'message' => '请输入快递单号', 'on' => 'send'],
+            ['createtime', 'safe', 'on' => ['add']],
+        ];
     }
 
     public static $status = [ // 用户订单状态码标识

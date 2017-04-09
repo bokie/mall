@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use app\controllers\CommonController;
+use app\models\Cart;
 use app\models\Order;
+use app\models\OrderDetail;
+use app\models\Product;
 use app\models\User;
 use Yii;
 
@@ -32,7 +35,7 @@ class OrderController extends CommonController
             return $this->redirect(['member/auth']);
         }
 
-        // ?? to comment
+        // 开始一个数据库事务
         $transaction = Yii::$app->db->beginTransaction();
 
         try {
@@ -41,7 +44,7 @@ class OrderController extends CommonController
                 $post = Yii::$app->request->post();
 
                 // 实例化一个订单数据模型
-                $ordermodel = new Order();
+                $ordermodel = new Order;
                 $ordermodel->scenario = "add";
 
                 // 获取当前用户数据
@@ -67,12 +70,37 @@ class OrderController extends CommonController
 
                 //生成订单详情数据
                 $orderid = $ordermodel->getPrimaryKey();
+                foreach ( $post['OrderDetail'] as $product ) {
+                    $model = new OrderDetail;
+                    $product['orderid'] = $orderid;
+                    $product['createtime'] = time();
+                    $data['OrderDetail'] = $product;
+
+                    // 写入数据
+                    if ( ! $model->add($data) ) {
+                        throw new \Exception();
+                    }
+
+                    // 删除当前用户购物车数据
+                    Cart::deleteAll('productid = :pid', [':pid' => $product['productid']]);
+
+                    // 商品库存数量更新
+                    Product::updateAllCounters(['num' => -$product['productnum']],
+                        'productid = :pid', ['pid' => $product['productid']]
+                        );
+
+                }
+
+                // 事务提交
+                $transaction->commit();
 
             }
-        } catch ( \Exception $e ) {
-
+        } catch ( \Exception $e ) { // 捕获异常
+            $transaction->rollBack(); //回滚数据
+            return $this->redirect(['index/index']);
         }
 
-//        $this->redirect(['order/check']);
+        // 事务执行成功，跳转至订单确认页面
+        $this->redirect(['order/check', 'orderid' => $orderid]);
     }
 }
