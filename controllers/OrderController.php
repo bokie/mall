@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\controllers\CommonController;
+use app\models\Address;
 use app\models\Cart;
 use app\models\Order;
 use app\models\OrderDetail;
@@ -18,13 +19,10 @@ class OrderController extends CommonController
         return $this->render("index");
     }
 
-    public function actionCheck()
-    {
-
-        $this->layout = "layout1";
-        return $this->render("check");
-    }
-
+    /**
+     * 用户购物车结算，初始化订单数据
+     * @return
+     */
     public function actionAdd()
     {
         //打印post数据
@@ -103,4 +101,70 @@ class OrderController extends CommonController
         // 事务执行成功，跳转至订单确认页面
         $this->redirect(['order/check', 'orderid' => $orderid]);
     }
+
+    /**
+     * 处理用户提交订单数据
+     * @return string|\yii\web\Response
+     */
+    public function actionCheck()
+    {
+        // 判断用户是否登录
+        if ( Yii::$app->session['isLogin'] != 1 ) {
+            return $this->redirect(['member/auth']);
+        }
+
+        // 获取订单初始数据
+        $orderid = Yii::$app->request->get("orderid");
+        $status = Order::find()->where(
+            'orderid = :oid', [':oid' => $orderid ]
+        )->one()->status;  //查询订单状态
+        if ( $status != Order::CHECKORDER && Order::CHECKORDER ) { // 判断是否已经生成订单
+            return $this->redirect(['order/index']);
+        }
+
+        // 获取用户数据
+        $loginname = Yii::$app->session['loginname'];
+        $userid = User::find()->where(
+            'username = :name or useremail = :email',
+            [':name' => $loginname,':email' => $loginname]
+        )->one()->userid;
+        $addresses = Address::find()->where(
+            'userid = :uid',
+            [':uid' => $userid]
+        )->asArray()->all();
+
+        // 查询订单数据
+        $details = OrderDetail::find()->where(
+            'orderid = :oid',
+            [':oid' => $orderid]
+        )->asArray()->all(); // 查询订单详细数据
+        $data = [];
+        foreach ( $details as $detail) { // 遍历订单详情数据获取订单中每条商品信息
+            $model = Product::find()->where(
+                'productid = :pid', [':pid' => $detail['productid']]
+            )->one();
+            $detail['title'] = $model->title;
+            $detail['cover'] = $model->cover;
+            $data[] = $detail;
+        }
+
+        // 设置快递数据
+        $express = Yii::$app->params['express'];
+        $expressPrice = Yii::$app->params['expressPrice'];
+
+
+        $this->layout = "layout1";
+        return $this->render("check", ['products' => $data, 'addresses' => $addresses,
+            'express' => $express, 'expressPrice' => $expressPrice]);
+    }
+
+    /**
+     * 用户确认订单， 更新用户订单数据
+     */
+    public function actionConfirm()
+    {
+        var_dump($_POST);
+    }
+
+
 }
