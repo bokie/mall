@@ -137,6 +137,8 @@
                     <?php $total += $product['productnum']*$product['price']; ?>
                 <?php endforeach; ?>
 
+                <input type="hidden" name="addressid" value="6">
+
             </section><!-- /#your-order -->
 
             <div id="total-area" class="row no-margin">

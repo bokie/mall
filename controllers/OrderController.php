@@ -159,11 +159,82 @@ class OrderController extends CommonController
     }
 
     /**
-     * 用户确认订单， 更新用户订单数据
+     * 用户确认订单， 更新用户订单数据 (addressid, expressid, status, amount(orderid, userid))
      */
     public function actionConfirm()
     {
         var_dump($_POST);
+
+        try {
+            // 判断用户是否登录
+            if ( Yii::$app->session['isLogin'] != 1 ) {
+                return $this->redirect(['member/auth']);
+            }
+
+            // 验证是否为POST提交
+            if ( ! Yii::$app->request->isPost ) {
+                throw new \Exception();
+            }
+            $post = Yii::$app->request->post();
+
+            // 查询用户数据
+            $loginname = Yii::$app->session['loginname'];
+            $usermodel = User::find()->where(
+                'username = :name or useremail = :email',
+                [':name' => $loginname, ':email' =>$loginname]
+            )->one();
+            if ( ! $usermodel ) { // 用户查询数据为空，抛出异常
+                throw new \Exception();
+            }
+            $userid = $usermodel->userid;
+
+            //查询订单数据
+            $model = Order::find()->where(
+                'orderid = :oid and userid = :uid',
+                [':oid' => $post['orderid'], ':uid' => $userid]
+            )->one();
+            if ( ! $model ) { // 订单查询数据为空，抛出异常
+                throw new \Exception();
+            }
+
+            // 更新数据操作
+            $model->scenario = "update";
+            $post['status'] = Order::CHECKORDER;
+            $details = OrderDetail::find()->where(
+                'orderid = :oid',
+                [':oid' => $post['orderid']]
+            )->all();
+            // 计算订单商品总价
+            $amount = 0;
+            foreach ( $details as $detail ) { // 查询订单中每条商品数据
+                $amount += ($detail->productnum * $detail->price);
+            }
+            if ( $amount <= 0 ) { // 订单总额数据错误，抛出异常
+                throw new \Exception();
+            }
+            // 快递价格
+            $expressPrice = Yii::$app->params['expressPrice'][$post['expressid']];
+            if ( $expressPrice < 0 ) {
+                throw new \Exception();
+            }
+            $amount += $expressPrice;
+            $post['amount'] =$amount;
+
+            // 数据库数据存储
+            $data['Order'] = $post;
+            if ( empty($post['adressid']) ) { //判断用户地址数据是否为空
+               // TODO
+            }
+            if ( $model->load($data) && $model->save() ) { //判断订单数据是否更新成功
+                print "订单已更新";
+            }
+
+
+        } catch (\Exception $e) {
+            $this->redirect(['index/index']);
+        }
+
+
     }
 
 
