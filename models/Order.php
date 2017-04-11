@@ -21,6 +21,12 @@ class Order extends ActiveRecord
     const SENDED = 220;
     const RECIEVED = 260;
 
+    // 定义查询数据名称字段(其他数据表字段)
+    public $products;
+    public $zhstatus;
+    public $username;
+    public $address;
+
     public static function tableName()
     {
         return "{{%order}}";
@@ -44,5 +50,60 @@ class Order extends ActiveRecord
         self::SENDED => '已发货',
         self::RECIEVED => '订单完成',
     ];
+
+    public static function getDetail( $orders )
+    {
+        foreach ( $orders as $order ) {
+            $order = self::getData($order);
+        }
+        return $orders;
+    }
+
+    /**
+     * 多表联合查询用户订单数据
+     * @param $order
+     * @return mixed
+     */
+    public static function getData( $order )
+    {
+        // 查询订单详情
+        $details = OrderDetail::find()->where(
+            'orderid = :oid', [':oid' => $order->orderid]
+        )->all();
+        // 查询订单商品数据
+        $products = [];
+        foreach ( $details as $detail ) {
+            $product = Product::find()->where(
+                'productid = :pid', [':pid' => $detail->productid]
+            )->one();
+            if ( empty($product) ) { // 查询结果为空执行下一次循环
+                continue;
+            }
+            $product->num = $detail->productnum; // 将订单商品数量覆盖库存数量，便于页面数据显示
+            $products = $product;
+        }
+        $order->products[] = $products;
+        // 查询订单用户数据
+        $user = User::find()->where(
+            'userid = :uid', [':uid' => $order->userid]
+        )->one();
+        if ( ! empty($user) ) {
+            $order->username = $user->username;
+        }
+        $order->address = Address::find()->where(
+            'addressid = :aid', [':aid' => $order->addressid]
+        )->one();
+        if ( empty($order->address) ) {
+            $order->address = "";
+        } else {
+            $order->address = $order->address->address;
+        }
+        $order->zhstatus = self::$status[$order->status];
+
+        var_dump($order);
+
+        return $order;
+
+    }
 
 }
