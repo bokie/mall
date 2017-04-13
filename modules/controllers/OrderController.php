@@ -33,6 +33,10 @@ class OrderController extends CommonController
         return $this->render('list', ['pager' => $pager, 'orders' => $data]);
     }
 
+    /**
+     * 查询订单详情
+     * @return string
+     */
     public function actionDetail()
     {
         // 获取传递参数 orderid
@@ -45,5 +49,31 @@ class OrderController extends CommonController
         $this->layout = "layout1";
         return $this->render('detail', ['order' => $data]);
     }
+
+    public function actionSend()
+    {
+        // 获取订单id
+        $orderid = Yii::$app->request->get("orderid");
+
+        // 查询订单
+        $model = Order::find()->where(
+            'orderid = :id', [':id' => $orderid]
+        )->one();
+
+        // 更新订单状态
+        $model->scenario = "send";
+        if ( Yii::$app->request->isPost ) {
+            $post = Yii::$app->request->post();
+            $model->status = Order::SENDED;
+            if ( $model->load($post) && $model->save() ) {
+                Yii::$app->session->setFlash('info', '发货成功');
+            }
+        }
+
+        $this->layout = "layout1";
+        return $this->render('send', ['model' => $model]);
+    }
+
+
 
 }
