@@ -15,8 +15,23 @@ class OrderController extends CommonController
 {
     public function actionIndex()
     {
+        // 判断用户是否登录
+        if ( Yii::$app->session['isLogin'] != 1 ) {
+            return $this->redirect(['member/auth']);
+        }
+
+        // 获取用户信息
+        $loginname = Yii::$app->session['loginname'];
+        $userid = User::find()->where(
+            'username = :uname or useremail = :email',
+            [':uname' => $loginname, ':email' => $loginname]
+        )->one()->userid;
+
+        // 查询用户订单信息
+        $orders = Order::getProducts($userid);
+
         $this->layout = "layout2";
-        return $this->render("index");
+        return $this->render("index", ['orders' => $orders]);
     }
 
     /**

@@ -11,6 +11,7 @@ class Product extends ActiveRecord
     const DOMAIN = "http://onu36t5vy.bkt.clouddn.com";
     const BUCKET = "mall";
 
+    public $cate;
 
     public static function tableName()
     {

@@ -60,7 +60,7 @@ class Order extends ActiveRecord
     }
 
     /**
-     * 多表联合查询用户订单数据
+     * 多表联合查询用户订单数据（后台订单管理）
      * @param $order
      * @return mixed
      */
@@ -103,6 +103,51 @@ class Order extends ActiveRecord
         var_dump($order);
 
         return $order;
+
+    }
+
+    /**
+     * 查询用户订单数据（用户订单列表页）
+     * @param $userid
+     * @return array|ActiveRecord[]
+     */
+    public static function getProducts($userid)
+    {
+        // 查询用户所有订单
+        $orders = self::find()->where(
+            'status > 0 and userid = :uid',
+            [':uid' => $userid]
+        )->orderBy('createtime desc')->all();
+
+        // 遍历订单取商品数据
+        foreach ( $orders as $order ) {
+            $details = OrderDetail::find()->where(
+                'orderid = :oid',
+                [':oid' => $order->orderid]
+            )->all();
+            $products = [];
+            foreach ( $details as $detail ) {
+                $product = Product::find()->where(
+                    'productid = :pid',
+                    [':pid' => $detail->productid]
+                )->one();
+                if ( empty($product) ) {
+                    continue;
+                }
+                $product->num = $detail->productnum;
+                $product->price = $detail->price;
+                $product->cate = Category::find()->where(
+                    'cateid = :cid',
+                    [':cid' => $product->cateid ]
+                )->one()->title;
+                $products[] = $product;
+            }
+
+            $order->zhstatus = self::$status[$order->status]; // 订单状态中文信息
+            $order->products = $products;
+        }
+
+        return $orders;
 
     }
 
