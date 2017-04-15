@@ -249,7 +249,28 @@ class OrderController extends CommonController
             $this->redirect(['index/index']);
         }
 
+    }
 
+    /**
+     * 用户订单确认收货操作
+     * @return \yii\web\Response
+     */
+    public function actionReceived()
+    {
+        // 获取订单信息
+        $orderid = Yii::$app->request->get('orderid');
+        $order = Order::find()->where(
+            'orderid = :oid',
+            [':oid' => $orderid]
+        )->one();
+
+        // 更改订单状态
+        if ( ! empty($order) && $order->status == Order::SENDED ) {
+            $order->status = Order::RECIEVED;
+            $order->save();
+        }
+
+        return $this->redirect(['order/index']);
     }
 
 
