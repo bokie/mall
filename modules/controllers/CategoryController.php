@@ -1,12 +1,12 @@
 <?php
 namespace app\modules\controllers;
 
-use yii\web\Controller;
+use app\modules\controllers\CommonController;
 use Yii;
 
 use app\models\Category;
 
-class CategoryController extends Controller
+class CategoryController extends CommonController
 {
     //分类列表
     public function actionList()
