@@ -1,7 +1,7 @@
 <?php
 namespace app\modules\controllers;
 
-use yii\web\Controller;
+use app\modules\controllers\CommonController;
 use app\models\Product;
 use app\models\Category;
 use crazyfd\qiniu\Qiniu;
@@ -9,7 +9,7 @@ use Yii;
 use yii\data\Pagination;
 
 
-class ProductController extends Controller
+class ProductController extends CommonController
 {
     /**
      * 查看商品列表

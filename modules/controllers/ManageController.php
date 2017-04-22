@@ -2,11 +2,11 @@
 namespace app\modules\controllers;
 
 use app\modules\models\Admin;
-use yii\web\Controller;
+use app\modules\controllers\CommonController;
 use yii\data\Pagination;
 use Yii;
 
-class ManageController extends Controller
+class ManageController extends CommonController
 {
     public function actionManagers()  //管理员列表
     {
