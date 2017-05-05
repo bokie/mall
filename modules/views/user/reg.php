@@ -32,9 +32,9 @@ use yii\helpers\Html;
                         echo $form->field($model, 'repass')->passwordInput(['class' => 'span9']);
                         ?>
                         <div class="span11 field-box actions">
-                            <?php echo Html::submitButton('添加', ['class' => 'btn-glow primary']); ?>
+                            <?php echo Html::submitButton('添加', ['class' => 'btn-flat btn-primary']); ?>
                             <span>OR</span>
-                            <?php echo Html::resetButton('取消', ['class' => 'reset']); ?>
+                            <?php echo Html::resetButton('取消', ['class' => 'btn-flat btn-default reset']); ?>
                         </div>
                         <?php ActiveForm::end(); ?>
                     </div>

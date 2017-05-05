@@ -7,7 +7,7 @@
             <div class="row-fluid header">
                 <h3>分类列表</h3>
                 <div class="span10 pull-right">
-                    <a href="<?php echo yii\helpers\Url::to(['category/add']) ?>" class="btn-flat success pull-right">
+                    <a href="<?php echo yii\helpers\Url::to(['category/add']) ?>" class="btn-flat  pull-right">
                         <span>&#43;</span>
                         添加新分类
                     </a>
