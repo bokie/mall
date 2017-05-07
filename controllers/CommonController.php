@@ -24,13 +24,11 @@ class CommonController extends Controller
         //获取菜单数据
         $menu = Category::getMenu();
 
+
         //设置全局参数 ？
         $this->view->params['menu'] = $menu;
 
         $data = [];
         $data['products'] = [];
-        //商品总价
-        $total = 0;
-
     }
 }

@@ -18,7 +18,7 @@ class Address extends ActiveRecord
     {
         return [
             [['userid', 'firstname', 'lastname', 'address', 'email', 'telephone'], 'required'],
-            [['createtime', 'postcode'],'safe'],
+            [['createtime', 'company','postcode'],'safe'],
         ];
     }
 }

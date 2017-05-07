@@ -46,4 +46,9 @@ class ProductController extends CommonController
         $this->layout = "layoutIndex";
         return $this->render("detail", ['product' => $product]);
     }
+
+    public function actionSearch()
+    {
+        //TODO
+    }
 }

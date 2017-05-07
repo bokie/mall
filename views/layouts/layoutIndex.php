@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="assets/app/css/login.css">
 	<link rel="stylesheet" href="assets/app/css/list.css">
 	<link rel="stylesheet" href="assets/app/css/detail.css">
+	<link rel="stylesheet" href="assets/app/css/cart.css">
 
 </head>
 <body>
@@ -40,7 +41,7 @@
 		<div class="m-tab-main">
 			<div class="g-container">
 				<div class="tool-bar">
-					<a class="m-cart">
+					<a href="<?php echo yii\helpers\Url::to( ['cart/index'] ); ?>" class="m-cart">
 						<i id="j-iconCart" class="iconfont icon-shopcar"></i>
 						<span id="j-cartNum" class="cart-num">9</span>
 					</a>

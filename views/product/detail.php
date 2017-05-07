@@ -1,4 +1,6 @@
-
+<?php
+    use yii\bootstrap\ActiveForm;
+?>
 <!-- @main 商品详情 -->
 <main class="g-goods-detail">
     <div class="g-container">
@@ -22,7 +24,9 @@
             </div>
 
             <div class="info">
-                <form>
+                <?php $form = ActiveForm::begin([
+                    'action' => yii\helpers\Url::to(['cart/add']),
+                ]); ?>
                     <div class="intro">
                         <h2 class="title"><?php echo $product['title']; ?></h2>
                         <p class="desc"><?php echo $product['descr']; ?></p>
@@ -66,15 +70,23 @@
                         <div class="j-">
                             <div class="u-select-num g-left">
                                 <a id="j-numMinus" href="javascript:;" class="minus">-</a>
-                                <input id="j-selectedNum" value="1" type="text"> <a id="j-numPlus" href="javascript:;" class="plus">+</a> 
+                                <input name="productnum" id="j-selectedNum" value="1" type="text"> <a id="j-numPlus" href="javascript:;" class="plus">+</a> 
                             </div>
                         </div>
                     </div>
 
+                    <input type="hidden" name="price"
+                      value="<?php echo $product['issale'] == '1' 
+                      ? $product['saleprice'] 
+                      : $product['price']; ?>"
+                    >
+
+                    <input type="hidden" name="productid" value="<?php echo $product['productid']; ?>">
+
                     <div class="btn" style="text-align: center;padding-right: 10px;">
                         <button class="w-button-primary">加入购物车</button>
                     </div>
-                </form>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
 
@@ -86,7 +98,6 @@
             <div class="tab-content">
                 <!-- 商品详情内容 -->
                 <div class="m-detail-content j-tabItem">
-                    <p>商品详情</p>
                     <?php echo $product['detail']; ?>
                 </div>
                 <!-- / 商品详情内容 -->
