@@ -29,8 +29,9 @@ class OrderController extends CommonController
 
         // 查询用户订单信息
         $orders = Order::getProducts($userid);
+        var_dump($orders);
 
-        $this->layout = "layout2";
+        $this->layout = "layoutIndex";
         return $this->render("index", ['orders' => $orders]);
     }
 
@@ -41,7 +42,8 @@ class OrderController extends CommonController
     public function actionAdd()
     {
         //打印post数据
-//        var_dump($_POST);
+       /*var_dump($_POST);
+       exit();*/
 
         //判断用户是否登录
         if ( Yii::$app->session['isLogin'] != 1 ) {
@@ -62,9 +64,8 @@ class OrderController extends CommonController
 
                 // 获取当前用户数据
                 $usermodel = User::find()->where(
-                    'username = :uname or useremail = :email',
-                    [':uname' => Yii::$app->session['loginname'],
-                        ':email' => Yii::$app->session['loginname']]
+                    'useremail = :email',
+                    [':email' => Yii::$app->session['loginname']]
                 )->one();
                 if ( !$usermodel ) { // 查询不到当前用户，抛出异常
                     throw new \Exception;
@@ -167,10 +168,11 @@ class OrderController extends CommonController
         $express = Yii::$app->params['express'];
         $expressPrice = Yii::$app->params['expressPrice'];
 
+        var_dump($data);
+        var_dump($addresses);
 
-        $this->layout = "layout1";
-        return $this->render("check", ['products' => $data, 'addresses' => $addresses,
-            'express' => $express, 'expressPrice' => $expressPrice]);
+        $this->layout = false;
+        return $this->render("check", ['products' => $data, 'addresses' => $addresses]);
     }
 
     /**
@@ -178,7 +180,8 @@ class OrderController extends CommonController
      */
     public function actionConfirm()
     {
-        var_dump($_POST);
+        // var_dump($_POST);
+        // exit();
 
         try {
             // 判断用户是否登录
@@ -191,6 +194,7 @@ class OrderController extends CommonController
                 throw new \Exception();
             }
             $post = Yii::$app->request->post();
+            $orderid = $post['orderid'];
 
             // 查询用户数据
             $loginname = Yii::$app->session['loginname'];
@@ -202,6 +206,7 @@ class OrderController extends CommonController
                 throw new \Exception();
             }
             $userid = $usermodel->userid;
+
 
             //查询订单数据
             $model = Order::find()->where(
@@ -228,11 +233,11 @@ class OrderController extends CommonController
                 throw new \Exception();
             }
             // 快递价格
-            $expressPrice = Yii::$app->params['expressPrice'][$post['expressid']];
-            if ( $expressPrice < 0 ) {
-                throw new \Exception();
-            }
-            $amount += $expressPrice;
+            // $expressPrice = Yii::$app->params['expressPrice'][$post['expressid']];
+            // if ( $expressPrice < 0 ) {
+            //     throw new \Exception();
+            // }
+            // $amount += $expressPrice;
             $post['amount'] =$amount;
 
             // 数据库数据存储
@@ -241,7 +246,9 @@ class OrderController extends CommonController
                // TODO
             }
             if ( $model->load($data) && $model->save() ) { //判断订单数据是否更新成功
-                print "订单已更新";
+                // print "订单已更新";
+                $this->layout = false;
+                return $this->render('pay', ['orderid' => $orderid]);
             }
 
 
@@ -250,6 +257,22 @@ class OrderController extends CommonController
         }
 
     }
+
+     /**
+     * 用户支付订单
+     */
+     public function actionPay()
+     {
+        // 验证是否POST提交
+        // if ( ! Yii::$app->request->isPost ) {
+        //     throw new \Exception();
+        // }
+        $post = Yii::$app->request->post();
+        var_dump( $post );
+
+        
+
+     }
 
     /**
      * 用户订单确认收货操作

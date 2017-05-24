@@ -21,7 +21,7 @@ class User extends ActiveRecord
     {
         return [
             [
-                'loginname', 'required', 'message' => '登录用户名不能为空',
+                'useremail', 'required', 'message' => '登录用户名不能为空',
                 'on' => ['login']
             ],
             [
@@ -34,24 +34,24 @@ class User extends ActiveRecord
             ],
             [
                 'useremail', 'required', 'message' => '电子邮箱不能为空',
-                'on' => ['reg']
+                'on' => ['reg', 'register']
             ],
             [
                 'useremail', 'unique', 'message' => '该电子邮箱已被注册',
-                'on' => ['reg']
+                'on' => ['reg', 'register']
             ],
             [
                 'userpass', 'required', 'message' => '用户密码不能为空',
-                'on' => ['reg']
+                'on' => ['reg', 'register', 'login']
             ],
             [
                 'repass', 'required', 'message' => '确认密码不能为空',
-                'on' => ['reg']
+                'on' => ['reg', 'register']
             ],
             [
                 'repass', 'compare', 'compareAttribute' => 'userpass',
                 'message' => '两次密码输入不一致',
-                'on' => ['reg']
+                'on' => ['reg', 'register']
             ],
             [
                 'userpass', 'validatePass',
@@ -65,14 +65,9 @@ class User extends ActiveRecord
     public function validatePass()
     {
         if ( ! $this->hasErrors() ) {
-            $loginname  = "username";
-            //登录名为邮箱
-            if (preg_match('/@/', $this->loginname)) {
-                $loginname = "useremail";
-            }
             $data = self::find()->where(
-                $loginname . "= :loginname and userpass = :pass", [
-                    ':loginname' => $this->loginname,
+                "useremail = :loginname and userpass = :pass", [
+                    ':loginname' => $this->useremail,
                     ':pass' => md5($this->userpass)
                 ]
             )->one();
@@ -91,7 +86,7 @@ class User extends ActiveRecord
             'username' => '用户名',
             'userpass' => '用户密码',
             'repass' => '确认密码',
-            'useremail' => '电子邮箱',
+            'useremail' => '邮箱账号',
             'loginname' => '用户名/电子邮箱',
         ];
     }
@@ -119,7 +114,7 @@ class User extends ActiveRecord
             $lifetime = $this->rememberMe ? 24*3600 : 0; //如果保存登录状态session有效时间一天
             $session = Yii::$app->session;
             session_set_cookie_params($lifetime);
-            $session['loginname'] = $this->loginname;
+            $session['loginname'] = $this->useremail;
             $session['isLogin'] = 1;
             return (bool)$session['isLogin'];
         }

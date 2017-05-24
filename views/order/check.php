@@ -1,214 +1,151 @@
-<?php use yii\bootstrap\ActiveForm; ?>
+<?php 
+use yii\bootstrap\ActiveForm;
+?>
 
-<!-- ========================================= CONTENT ========================================= -->
-<section id="checkout-page">
-    <div class="container">
-        <div class="col-xs-12 no-margin">
-            <section id="shipping-address" style="margin-bottom:100px;margin-top:-10px">
-                <h2 class="border h1">收货地址</h2>
-                <a href="#" id="createlink">新建联系人</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>订单结算</title>
+    <link rel="stylesheet" href="assets/app/css/style.css">
+    <link rel="stylesheet" href="assets/app/css/common.css">
+    <link rel="stylesheet" href="assets/app/css/count.css">
+</head>
+<body>
 
-                <?php foreach ($addresses as $key => $address ) : ?>
+    <!-- 结算页页头 @header -->
+    <header>
+        <div class="m-nav-site">
+            <div class="g-container">
+                <div class="g-left declare">
+                    Baby muh~
+                </div>
+            </div>
+        </div>
+        <div class="g-container f-clearfix">
+            <div class="m-step-nav g-right">
+            </div>
+        </div>
+    </header>
+    <!-- @header end -->
 
-                <div class="row field-row" style="margin-top:10px">
-                    <div class="col-xs-12">
-                        <input class="le-radio big address" type="radio" name="address"
-                               value="<?php echo $address['addressid']; ?>"
-                               <?php if ($key == 0) { echo 'checked="checked"'; } ?>/>
-                        <a class="simple-link bold" href="#">
-                            <?php echo $address['firstname'].$address['lastname']." "
-                            .$address['company']." ".$address['address']. " "
-                            .$address['postcode']. " ". $address['email']." "
-                            .$address['telephone'] ; ?>
-                        </a>
-                        <a style="margin-left:45px;" href="<?php echo \yii\helpers\Url::to([
-                                'address/del', 'addressid' => $address['addressid']
-                        ]) ?>">删除</a>
-                    </div>
-                </div><!-- /.field-row -->
+    <!-- 结算页主要部分 @main -->
+    <main class="m-count-main">
+        <div class="g-container">
 
-                <?php endforeach; ?>
+            <div class="m-count-header">
+                订单结算
+            </div>
 
-            </section><!-- /#shipping-address -->
+            <div class="m-address-select">
+                <div class="header">
+                    选择收货地址
+                </div>
+                <div class="new-address">
+                    <a id="j-newAddress" href="javascript:;">+ 新建收货地址</a>
+                    <div id="j-addressForm" class="content f-clearfix" style="display: none;">
 
-            <div class="billing-address" style="display:none;">
-                <h2 class="border h1">新建联系人</h2>
-                <?php ActiveForm::begin([
-                        'action' => ['address/add']
-                        ]); ?>
-                    <div class="row field-row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label>姓*</label>
-                            <input class="le-input" name="firstname">
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label>名*</label>
-                            <input class="le-input" name="lastname">
-                        </div>
-                    </div><!-- /.field-row -->
-
-                    <div class="row field-row">
-                        <div class="col-xs-12">
-                            <label>公司名称</label>
-                            <input class="le-input" name="company">
-                        </div>
-                    </div><!-- /.field-row -->
-
-                    <div class="row field-row">
-                        <div class="col-xs-12 col-sm-6">
-                            <label>地址*</label>
-                            <input class="le-input" data-placeholder="例如：北京市朝阳区" name="address1">
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <label>&nbsp;</label>
-                            <input class="le-input" data-placeholder="例如：酒仙桥北路" name="address2">
-                        </div>
-                    </div><!-- /.field-row -->
-
-                    <div class="row field-row">
-                        <div class="col-xs-12 col-sm-4">
-                            <label>邮编</label>
-                            <input class="le-input" name="postcode">
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <label>电子邮箱地址*</label>
-                            <input class="le-input" name="email">
-                        </div>
-
-                        <div class="col-xs-12 col-sm-4">
-                            <label>联系电话*</label>
-                            <input class="le-input" name="telephone">
-                        </div>
-                    </div><!-- /.field-row -->
-
-                    <!--<div class="row field-row">
-                        <div id="create-account" class="col-xs-12">
-                            <input  class="le-checkbox big" type="checkbox"  />
-                            <a class="simple-link bold" href="#">新建联系人？</a>
-                        </div>
-                    </div>--><!-- /.field-row -->
-
-                    <div class="place-order-button">
-                        <button class="le-button small">新建</button>
-                    </div><!-- /.place-order-button -->
-                <?php ActiveForm::end(); ?>
-            </div><!-- /.billing-address -->
-
-
-            <section id="your-order">
-
-                <?php ActiveForm::begin([
-                        'action'  => ['order/confirm'],
-                        'options' => ['id' => 'orderconfirm']
-                ]); ?>
-
-                <h2 class="border h1">您的订单详情</h2>
-
-                <?php $total = 0; ?>
-                <?php foreach ( $products as $product ) : ?>
-
-                    <div class="row no-margin order-item">
-                        <div class="col-xs-12 col-sm-1 no-margin">
-                            <a href="<?php echo \yii\helpers\Url::to(['product/detail',
-                                'productid' => $product['productid']]);?>" class="qty">
-                                <?php echo $product['productnum']; ?>
-                            </a>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-9 ">
-                            <div class="title">
-                                <a href="<?php echo \yii\helpers\Url::to(['product/detail',
-                                    'productid' => $product['productid']]); ?>" class="thumb-holder">
-                                    <img src="<?php echo $product['cover']; ?>-coversmall" class="lazy" alt="">
-                                </a>
-                                <a style="margin-left:50px" href="<?php echo yii\helpers\Url::to(['product/detail',
-                                    'productid' => $product['productid']]) ?>">
-                                    <?php echo $product['title'] ?>
-                                </a>
+                        <?php ActiveForm::begin([
+                            'action' => ['address/add'],
+                            ]); ?>
+                            <div class="box name-box g-left">
+                                <label>收货人姓名</label>
+                                <input type="text" name="name" placeholder="请输入收货人姓名">
                             </div>
-<!--                            <div class="brand">sony</div>-->
+                            <div class="box tel-box g-left">
+                                <label>联系电话</label>
+                                <input type="text" name="telephone" placeholder="填写您的手机号码">
+                            </div>
+                            <div class="box address-box g-left">
+                                <label>收货地址</label>
+                                <input type="text" name="address" placeholder="请输入详细的收货地址">
+                            </div>
+                            <div class="option g-right f-clearfix">
+                                <button type="submit" class="w-button-sm g-left">添 加</button>
+                                <a class="cancel g-left j-cancel" href="javascript:;">取消</a>
+                            </div>
+                            <?php ActiveForm::end(); ?>
                         </div>
+                    </div>
+                    <div class="my-address">
 
-                        <div class="col-xs-12 col-sm-2 no-margin">
-                            <div class="price"><?php echo $product['price']; ?></div>
+                        <?php foreach ( $addresses as $key => $address ) : ?>
+                            <input class="j-radio j-address" type="radio" name="address"
+                            value="<?php echo $address['addressid']; ?>"
+                            >
+                            <a href="javascript:;">
+                                <?php echo $address['name'] . " ". $address['telephone'] . " " . $address['address']; ?>
+                            </a>
+                        <?php endforeach; ?>
+
+                    </div>
+                </div>
+
+                <?php ActiveForm::begin([
+                    'action'  => ['order/confirm'],
+                    'options' => ['id' => 'orderConfirm'],
+                    ]); ?>
+
+                    <div class="m-order-check">
+                        <div class="header">
+                            订单详情
                         </div>
-                    </div><!-- /.order-item -->
+                        <div class="content">
 
-                    <?php $total += $product['productnum']*$product['price']; ?>
-                <?php endforeach; ?>
+                            <?php $total = 0; ?>
 
-                <input type="hidden" name="addressid" value="6">
-
-            </section><!-- /#your-order -->
-
-            <div id="total-area" class="row no-margin">
-                <div class="col-xs-12 col-lg-4 col-lg-offset-8 no-margin-right">
-                    <div id="subtotal-holder">
-                        <ul class="tabled-data inverse-bold no-border">
-                            <li>
-                                <label>商品总价</label>
-                                <div style="width:100%;text-align:right" class="value "><?php echo $total; ?></div>
-                            </li>
-                            <li>
-                                <label>选择快递</label>
-                                <div style="width:100%;text-align:right" class="value">
-                                    <div class="radio-group">
-
-                                        <?php foreach ( $express as $k=>$e ) : ?>
-                                            <?php $checked = ""; if($k == 2) $checked = "checked" ?>
-                                            <input class="le-radio express" type="radio"
-                                                   name="expressid" value="<?php echo $k ?>"
-                                                   data="<?php echo $expressPrice[$k] ?>" <?php echo $checked ?>>
-                                            <div class="radio-label bold"><?php echo $e ?>
-                                                <span class="bold"> ￥ <?php echo $expressPrice[$k] ?>
-                                                </span>
-                                            </div>
-                                            <br>
-
-                                        <?php endforeach; ?>
-
+                            <?php foreach ( $products as $product ) : ?>
+                                <div class="content-item f-clearfix">
+                                    <div class="img g-left">
+                                        <img src="<?php echo $product['cover']; ?>-coversmall" alt="<?php echo $product['title'];?>">
                                     </div>
+                                    <span class="title g-left"><?php echo $product['title']; ?></span>
+                                    <span class="num g-left"><span>x </span><?php echo $product['productnum']; ?></span>
+                                    <span class="price g-left"><?php echo $product['price']; ?></span>
                                 </div>
-                            </li>
-                        </ul><!-- /.tabled-data -->
 
-                        <ul id="total-field" class="tabled-data inverse-bold ">
-                            <li>
-                                <label>订单总额</label>
-                                <div class="value" style="width:100%;text-align:right"><?php echo $total + 20; ?></div>
-                            </li>
-                        </ul><!-- /.tabled-data -->
+                                <?php $total += $product['price'] * $product['productnum']; ?>
 
-                    </div><!-- /#subtotal-holder -->
-                </div><!-- /.col -->
-            </div><!-- /#total-area -->
+                            <?php endforeach; ?>
 
-            <div id="payment-method-options">
-                    <div class="payment-method-option">
-                        <input class="le-radio" type="radio" name="group2" value="Direct">
-                        <div class="radio-label bold ">微信支付</div>
-                    </div><!-- /.payment-method-option -->
+                            <div class="count">
+                                <span>总计:</span>
+                                <span class="price">￥<span class="num"><?php echo number_format( $total,2 ); ?></span></span>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="payment-method-option">
-                        <input class="le-radio" type="radio" name="group2" value="cheque">
-                        <div class="radio-label bold ">支付宝支付</div>
-                    </div><!-- /.payment-method-option -->
+                    <div class="split-line"></div>
 
-                    <div class="payment-method-option">
-                        <input class="le-radio" type="radio" name="group2" value="paypal">
-                        <div class="radio-label bold ">网银支付</div>
-            </div><!-- /#payment-method-options -->
+                    <div class="m-order-confirm g-right">
+                        <span class="tip">
+                            订单确认好了，
+                        </span>
+                        <button class="w-button-primary" type="submit">
+                            去 支 付
+                        </button>
+                    </div>
 
-            <div class="place-order-button">
-                <button class="le-button big">确认订单</button>
-            </div><!-- /.place-order-button -->
+                    <input type="hidden" id="j-addressId" name="addressid" value="">
+                    <input type="hidden"  name="orderid"
+                      value="<?php echo (int)\Yii::$app->request->get('orderid'); ?>" >
 
-        </div><!-- /.col -->
-    </div><!-- /.container -->
+                    <?php ActiveForm::end(); ?>
 
-    <input name="orderid" value="<?php echo (int)\Yii::$app->request->get("orderid"); ?>" type="hidden">
+                </div>
+            </main>
+            <!-- @main end -->
 
-    <?php ActiveForm::end() ?>
+            <footer class="g-footer">
+                <div class="g-container">
+                    <span class="copyright">&copy; 2017 bokie.me</span>
+                    <span>本科毕业设计作品</span>
+                </div>
+            </footer>
 
-</section><!-- /#checkout-page -->
-<!-- ========================================= CONTENT : END ========================================= -->
+            <script src="assets/app/js/lib/jquery-3.1.0.js"></script>
+            <script src="assets/app/js/count.js"></script>
+
+
+        </body>
+        </html>

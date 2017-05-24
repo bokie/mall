@@ -14,13 +14,16 @@ class CartController extends CommonController
     {
         //判断用户是否登录
         if ( Yii::$app->session['isLogin'] != 1 ) {
-            return $this->redirect(['member/auth']);
+            return $this->redirect(['user/login']);
         }
 
         // 获取当前登录用户的userid
         $userid = User::find()->where(
-            'username = :name', [':name' => Yii::$app->session['loginname']]
+            'useremail = :name', [':name' => Yii::$app->session['loginname']]
         )->one()->userid;
+
+        $cartNum = Cart::getNum( $userid );
+        var_dump( $cartNum );
 
         // 获取当前用户的购物车数据
         $cart = Cart::find()->where(
@@ -46,7 +49,7 @@ class CartController extends CommonController
         var_dump($data);
 
         //指定使用的布局文件 带商品分类的layout2
-        $this->layout = "layout1";
+        $this->layout = "layoutIndex";
         // views/cart/index.php
         return $this->render("index", ['data' => $data]);
     }
@@ -56,21 +59,22 @@ class CartController extends CommonController
      */
     public function actionAdd()
     {
-        var_dump($_POST);
+        // var_dump($_POST);
 
         // 判断用户是否登录
         if ( Yii::$app->session['isLogin'] != 1 ) {
-            return $this->redirect(['member/auth']);
+            return $this->redirect(['user/login']);
         }
 
         // 获取当前登录用户userid
         $userid = User::find()->where(
-            'username = :name', [':name' => Yii::$app->session['loginname']]
+            'useremail = :name', [':name' => Yii::$app->session['loginname']]
         )->one()->userid;
 
         // 获取post数据
         if ( Yii::$app->request->isPost ) {
             $post = Yii::$app->request->post();
+            var_dump($post);
             $num = Yii::$app->request->post()['productnum'];
             $data['Cart'] = $post;
             $data['Cart']['userid'] = $userid;

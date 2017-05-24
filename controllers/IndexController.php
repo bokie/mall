@@ -13,15 +13,16 @@ class IndexController extends CommonController
         $data['all'] = Product::find()->where(
             'ison = "1"'
         )->orderBy('createtime desc')->limit(7)->all();
-        $data['isreco'] = Product::find()->where(
+        $data['reco'] = Product::find()->where(
             'isreco = "1"'
         )->orderBy('createtime desc')->limit(7)->all();
 
+        // var_dump($data['isreco'][2]);
         //禁用默认的模板的头部和脚部
         //    $this->layout = false;
         //也可以通过return $this->renderPartial("index");实现
         //指定使用的布局文件
-        $this->layout = "layout1";
+        $this->layout = "layoutIndex";
         return $this->render("index", ['data' => $data]);
     }
 }

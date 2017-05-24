@@ -40,9 +40,9 @@ use yii\helpers\Html;
                         ]);
                         echo $form->field($model, 'cateid')->dropDownList($opts, ['id' => 'cates']);
                         echo $form->field($model, 'title')->textInput(['class' => 'span9']);
-                        echo $form->field($model, 'descr')->textarea(['id' => "wysi", 'class' => "span9 wysihtml5", 'style' => 'margin-left:120px']);
+                        echo $form->field($model, 'descr')->textInput(['class' => 'span9']);
+                        echo $form->field($model, 'detail')->textarea(['id' => "wysi", 'class' => "span9 wysihtml5", 'style' => 'margin-left:120px']);
                         echo $form->field($model, 'price')->textInput(['class' => 'span9']);
-                        echo $form->field($model, 'ishot')->radioList([0 => '不热卖', 1 => '热卖'], ['class' => 'span8']);
                         echo $form->field($model, 'issale')->radioList(['不促销', '促销'], ['class' => 'span8']);
                         echo $form->field($model, 'saleprice')->textInput(['class' => 'span9']);
                         echo $form->field($model, 'num')->textInput(['class' => 'span9']);
@@ -69,11 +69,11 @@ use yii\helpers\Html;
                         }
                         ?>
                         <hr>
-                        <input type='button' class="btn" id="addpic" value='增加一个'>
+                        <input type='button' class="btn-flat" id="addpic" value='增加一个'>
                         <div class="span11 field-box actions">
-                            <?php echo Html::submitButton('提交', ['class' => 'btn-glow primary']); ?>
+                            <?php echo Html::submitButton('提交', ['class' => 'btn-flat primary']); ?>
                             <span>OR</span>
-                            <?php echo Html::resetButton('取消', ['class' => 'reset']); ?>
+                            <?php echo Html::resetButton('取消', ['class' => 'btn-flat primary reset']); ?>
                         </div>
                         <?php ActiveForm::end(); ?>
                     </div>

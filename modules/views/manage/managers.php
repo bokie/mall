@@ -5,7 +5,7 @@
             <div class="row-fluid header">
                 <h3>管理员列表</h3>
                 <div class="span10 pull-right">
-                    <a href="<?php echo \yii\helpers\Url::to(['manage/reg']); ?>" class="btn-flat success pull-right">
+                    <a href="<?php echo \yii\helpers\Url::to(['manage/reg']); ?>" class="btn-flat pull-right">
                         <span>&#43;</span>添加新管理员</a></div>
             </div>
             <!-- Users table -->

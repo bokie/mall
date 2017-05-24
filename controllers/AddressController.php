@@ -29,15 +29,14 @@ class AddressController extends CommonController
         // 查询用户信息
         $loginname = Yii::$app->session['loginname'];
         $userid = User::find()->where(
-            'username = :name or useremail = :email',
-            [':name' => $loginname, ':email' => $loginname]
+            'useremail = :email',
+            [':email' => $loginname]
         )->one()->userid;
 
         // 更新用户收货地址信息
         if ( Yii::$app->request->isPost ) {
             $post = Yii::$app->request->post();
             $post['userid'] = $userid;
-            $post['address'] = $post['address1'] . $post['address2'];
             $data['Address'] = $post;
             $model = new Address();
             $model->load($data);

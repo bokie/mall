@@ -1,116 +1,142 @@
-<?php use yii\bootstrap\ActiveForm; ?>
+<?php
+use yii\bootstrap\ActiveForm;
+?>
+<!-- @main 购物车主要内容 -->
+<main class="g-cart">
+    <div class="g-container">
+        <div class="m-cart-main">
 
-<section id="cart-page">
-    <div class="container">
+            <?php $form = ActiveForm::begin([
+                'action' => yii\helpers\Url::to( ['order/add'] ),
+                ]); ?>
 
-
-        <!-- ========================================= CONTENT ========================================= -->
-
-        <?php $form = ActiveForm::begin([
-            'action' => yii\helpers\Url::to(['order/add']),
-        ]); ?>
-
-        <div class="col-xs-12 col-md-9 items-holder no-margin">
-            <?php $total = 0; ?>
-            <?php foreach ((array)$data as $k => $product) : ?>
-
-                <input type="hidden" name="OrderDetail[<?php echo $k; ?>][productid]"
-                       value="<?php echo $product['productid']; ?>">
-                <input type="hidden" name="OrderDetail[<?php echo $k; ?>][price]"
-                       value="<?php echo $product['price']; ?>">
-                <input type="hidden" name="OrderDetail[<?php echo $k; ?>][productnum]"
-                       value="<?php echo $product['productnum']; ?>">
-
-                <div class="row no-margin cart-item">
-                    <div class="col-xs-12 col-sm-2 no-margin">
-                        <a href="#" class="thumb-holder">
-                            <img class="lazy" alt="" src="<?php echo $product['cover']; ?>-coversmall"/>
-                        </a>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-5 ">
-                        <div class="title">
-                            <a href="<?php echo \yii\helpers\Url::to([
-                                'product/detail', 'productid' => $product['productid']]); ?>">
-                                <?php echo $product['title']; ?>
-                            </a>
+                <!-- 购物车头部区块 -->
+                <div class="cart-header f-clearfix">
+                    <div class="w w1">
+                        <div class="w-chkbox">
+                            <input type="checkbox">
                         </div>
-                        <!--                        <div class="brand">sony</div>-->
+                        <span>全选</span>
                     </div>
 
-                    <div class="col-xs-12 col-sm-3 no-margin">
-                        <div class="quantity">
-                            <div class="le-quantity">
-                                <a class="minus" href="#reduce"></a>
-                                <input name="productnum" id="<?php echo $product['cartid']; ?>" readonly="readonly"
-                                       type="text" value="<?php echo $product['productnum']; ?>"/>
-                                <a class="plus" href="#add"></a>
+                    <div class="w w2">
+
+                    </div>
+
+                    <div class="w w5">
+                        <span>商品信息</span>
+                    </div>
+
+                    <div class="w w3">
+                        <span>单价</span>
+                    </div>
+
+                    <div class="w w4">
+                        <span>数量</span>
+                    </div>
+
+                    <div class="w w4">
+                        <span>小计</span>
+                    </div>
+
+                    <div class="w w1">
+
+                    </div>
+                </div>
+                <!-- / 购物车头部区块 -->
+
+                <!-- 购物车商品列表区块 -->
+                <div class="cart-group">
+
+                    <?php $total = 0; ?>
+
+                    <?php foreach( (array)$data as $k=>$product ) : ?>
+                        <input type="hidden" name="OrderDetail[<?php echo $k; ?>][productid]"
+                          value="<?php echo $product['productid']; ?>">
+                        <input type="hidden" name="OrderDetail[<?php echo $k; ?>][price]"
+                          value="<?php echo $product['price']; ?>">
+                        <input type="hidden" name="OrderDetail[<?php echo $k; ?>][productnum]"
+                          value="<?php echo $product['productnum']; ?>">
+
+                        <div class="cart-item f-clearfix">
+                            <div class="w w1 item-checked">
+                                <div class="w-chkbox">
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+
+                            <div class="w w2 itme-img">
+                                <div class="img">
+                                <a href="<?php echo yii\helpers\Url::to( ['product/detail',
+                                  'productid' => $product['productid']] ); ?>"
+                                  title="<?php echo $product['title']; ?>">
+                                    <img src="<?php echo $product['cover']; ?>-coversmall" alt="">
+                                </a>
+                                </div>
+                            </div>
+
+                            <div class="w w5 item-info">
+                            <a href="<?php echo yii\helpers\Url::to( ['product/detail',
+                              'productid' => $product['productid']] ); ?>">
+                                    <span><?php echo $product['title']; ?></span>
+                                </a>
+                            </div>
+
+                            <div class="w w3 item-price">
+                                <span><?php echo $product['price']; ?></span>
+                            </div>
+
+                            <div class="w w4 item-num">
+                                <div class="u-select-num g-left">
+                                    <a href="javascript:;" class="minus j-numMinus">-</a>
+                                    <input name="productnum" id="<?php echo $product['cartid'];?>"
+                                    value="<?php echo $product['productnum']; ?>" 
+                                    class="j-selectedNum" type="text"> 
+                                    <a href="javascript:;" class="plus j-numPlus">+</a> 
+                                </div>
+                            </div>
+
+                            <div class="w w4 item-count">
+                                <span>
+                                    <?php
+                                    $count = $product['price'] * $product['productnum'];
+                                    echo number_format( $count, 2 );
+                                    ?>
+                                </span>
+                            </div>
+
+                            <div class="w w1 item-del">
+                                <a class="del" href="<?php echo yii\helpers\Url::to( ['cart/del',
+                                  'cartid' => $product['cartid'] ] ); ?>" title="删除该商品">
+                                  x
+                                </a>
                             </div>
                         </div>
-                    </div>
+                        <?php $total += $product['price'] * $product['productnum']; ?>
+                    <?php endforeach; ?>
 
-                    <div class="col-xs-12 col-sm-2 no-margin">
-                        <div class="price">
-                            <?php echo $product['price']; ?>
+                </div>
+                <!-- / 购物车商品列表区块 -->
+
+                <!-- 购物车结算区块 -->
+                <div class="cart-total f-clearfix">
+                    <div class="g-left">
+                        <p class="info">我的购物车</p>
+                    </div>
+                    <div class="g-right">
+                        <div class="count g-left">
+                            <span class="label">商品合计：</span><span style="color: #db4d6d;">￥</span><span class="price"><?php echo number_format( $total, 2 ); ?></span>
                         </div>
-                        <a class="close-btn" href="<?php echo \yii\helpers\Url::to([
-                            'cart/del', 'cartid' => $product['cartid']
-                        ]); ?>"></a>
-                    </div>
-                </div><!-- /.cart-item -->
-
-                <!-- 计算商品总价 -->
-                <?php $total += $product['price'] * $product['productnum']; ?>
-
-            <?php endforeach; ?>
-
-        </div>
-        <!-- ========================================= CONTENT : END ========================================= -->
-
-
-
-        <!-- ========================================= SIDEBAR ========================================= -->
-
-        <div class="col-xs-12 col-md-3 no-margin sidebar ">
-            <div class="widget cart-summary">
-                <h1 class="border">商品购物车</h1>
-                <div class="body">
-                    <ul class="tabled-data no-border inverse-bold">
-                        <li>
-                            <label>购物车总价</label>
-                            <div class="value pull-right">￥<?php echo $total; ?></div>
-                        </li>
-                        <li>
-                            <label>运费</label>
-                            <div class="value pull-right">0</div>
-                        </li>
-                    </ul>
-                    <ul id="total-price" class="tabled-data inverse-bold no-border">
-                        <li>
-                            <label>订单总价</label>
-                            <div class="value pull-right"><?php echo $total; ?></div>
-                        </li>
-                    </ul>
-                    <div class="buttons-holder">
-                        <input type="submit" class="le-button big" value="去结算">
-                        <a class="simple-link block" href="index.html">继续购物</a>
+                        <div class="btn">
+                            <button class="w-button-primary">去 结 算</button>
+                        </div>
                     </div>
                 </div>
-            </div><!-- /.widget -->
+                <!-- / 购物车结算区块 -->
 
-            <div id="cupon-widget" class="widget">
-                <h1 class="border">使用优惠券</h1>
-                <div class="body">
-                    <form>
-                        <div class="inline-input">
-                            <input data-placeholder="请输入优惠券码" type="text"/>
-                            <button class="le-button" type="submit">使用</button>
-                        </div>
-                    </form>
-                </div>
-            </div><!-- /.widget -->
-        </div><!-- /.sidebar -->
-        <?php ActiveForm::end(); ?>
-        <!-- ========================================= SIDEBAR : END ========================================= -->
-    </div>
-</section>
+                <?php ActiveForm::end(); ?>
+
+            </div>
+        </div>      
+    </main>
+    <!-- @main end -->

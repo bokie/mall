@@ -27,8 +27,8 @@ class Product extends ActiveRecord
             'cateid' => '分类名称',
             'title'  => '商品名称',
             'descr'  => '商品描述',
+            'detail'  => '商品详情',
             'price'  => '商品价格',
-            'ishot'  => '是否热卖',
             'issale' => '是否促销',
             'saleprice' => '促销价格',
             'num'    => '库存',
@@ -51,6 +51,9 @@ class Product extends ActiveRecord
             ],
             [
                 'descr', 'required', 'message' => '描述不能为空'
+            ],
+            [
+                'detail', 'required', 'message' => '商品详情不能为空'
             ],
             [
                 'cateid', 'required', 'message' => '分类不能为空'

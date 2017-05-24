@@ -7,7 +7,7 @@
             <div class="row-fluid header">
                 <h3>商品列表</h3>
                 <div class="span10 pull-right">
-                    <a href="<?php echo yii\helpers\Url::to(['product/add']) ?>" class="btn-flat success pull-right">
+                    <a href="<?php echo yii\helpers\Url::to(['product/add']) ?>" class="btn-flat pull-right">
                         <span>&#43;</span>
                         添加新商品
                     </a>
@@ -28,9 +28,7 @@
                         <th class="span2 sortable">
                             <span class="line"></span>商品单价
                         </th>
-                        <th class="span2 sortable">
-                            <span class="line"></span>是否热卖
-                        </th>
+                        
                         <th class="span2 sortable">
                             <span class="line"></span>是否促销
                         </th>
@@ -63,10 +61,7 @@
                             <td>
                                 <?php echo $product->price; ?>
                             </td>
-                            <td>
-                                <?php $hot = ['不热卖', '热卖'] ?>
-                                <?php echo $hot[$product->ishot]; ?>
-                            </td>
+                            
                             <td>
                                 <?php $sale = ['不促销', '促销'] ?>
                                 <?php echo $sale[$product->issale]; ?>
