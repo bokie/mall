@@ -1,218 +1,99 @@
-<!-- ============================================================= HEADER : END ============================================================= -->
-<div id="single-product">
-    <div class="container" style="padding-top:10px">
-        <?php foreach ($orders as $order): ?>
-        <div style="margin-bottom:30px;">
-            <div class="trade-order-mainClose">
-                <div>
-                    <table style="width:100%;border-collapse:collapse;border-spacing:0px;">
-                        <colgroup>
-                            <col style="width:38%;">
-                            <col style="width:10%;">
-                            <col style="width:5%;">
-                            <col style="width:12%;">
-                            <col style="width:12%;">
-                            <col style="width:11%;">
-                            <col style="width:12%;">
-                        </colgroup>
-                        <tbody>
-                        <tr style="background-color:#F5F5F5;width:100%">
-                            <td style="padding:10px 20px;text-align:left;width:100%">
-                                <label>
-                                    <strong title="" style="margin-right:8px;font-weight:bold;">
-                                        <?php echo date('Y-m-d H:i:s', $order->createtime); ?>
-                                    </strong>
-                                </label>
-                                <span>
-                订单号：
-              </span>
-                                <span>
-              </span>
-                                <span>
-                <?php echo $order->orderid ?>
-              </span>
-                            </td>
 
-                        </tr>
-                        </tbody>
-                    </table>
-                    <table style="width:100%;border-collapse:collapse;border-spacing:0px;">
-                        <colgroup>
-                            <col style="width:38%;">
-                            <col style="width:10%;">
-                            <col style="width:5%;">
-                            <col style="width:12%;">
-                            <col style="width:12%;">
-                            <col style="width:11%;">
-                        </colgroup>
-                        <tbody>
-                        <?php $i = 1; ?>
-                        <?php foreach ($order->products as $product): ?>
-                        <tr>
-                            <td style="text-align:left;vertical-align:top;padding-top:10px;padding-bottom:10px;border-right-width:0;border-right-style:solid;border-right-color:#E8E8E8;border-top-width:0;border-top-style:solid;border-top-color:#E8E8E8;padding-left:20px;">
-                                <div style="overflow:hidden;">
-                                    <a class="tp-tag-a"
-                                       href="<?php echo yii\helpers\Url::to(['product/detail', 'productid' => $product->productid]) ?>"
-                                       style="float:left;width:27%;margin-right:2%;text-align:center;" target="_blank">
-                                        <img src="<?php echo $product->cover ?>-coversmall"
-                                             style="border:1px solid #E8E8E8;max-width:80px;">
-                                    </a>
-                                    <div style="float:left;width:71%;word-wrap:break-word;">
-                                        <div style="margin:0px;">
-                                            <a class="tp-tag-a"
-                                               href="<?php echo yii\helpers\Url::to(['product/detail', 'productid' => $product->productid]) ?>"
-                                               target="_blank">
-                      <span>
-                        <?php echo $product->title ?>
-                      </span>
-                                            </a>
-                                            <span>
-                    </span>
-                                        </div>
-                                        <div style="margin-top:8px;margin-bottom:0;color:#9C9C9C;">
-                    <span style="margin-right:6px;">
-                      <span>
-                        分类
-                      </span>
-                      <span>
-                        ：
-                      </span>
-                      <span>
-                        <?php echo $product->cate ?>
-                      </span>
-                    </span>
-                                        </div>
+<!-- @main 个人中心主要内容 -->
+<main class="g-personal f-clearfix">
+  <div class="g-container">
 
-                                        <span>
-                  </span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="text-align:center;vertical-align:top;padding-top:10px;padding-bottom:10px;border-right-width:0;border-right-style:solid;border-right-color:#E8E8E8;border-top-width:0;border-top-style:solid;border-top-color:#E8E8E8;">
-                                <div style="font-family:verdana;font-style:normal;">
-                                    <p>
-                                        <?php echo $product->price ?>
-                                    </p>
-                                    <span>
-                </span>
-                                    <span>
-                </span>
-                                </div>
-                            </td>
-                            <td style="text-align:center;vertical-align:top;padding-top:10px;padding-bottom:10px;border-right-width:0;border-right-style:solid;border-right-color:#E8E8E8;border-top-width:0;border-top-style:solid;border-top-color:#E8E8E8;">
-                                <div>
-                                    <div>
-                                        数量 <?php echo $product->num ?>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="text-align:center;vertical-align:top;padding-top:10px;padding-bottom:10px;border-right-width:1px;border-right-style:solid;border-right-color:#E8E8E8;border-top-width:0;border-top-style:solid;border-top-color:#E8E8E8;">
-                                <div>
-                                    <div style="margin-bottom:3px;">
-                  <span>
-                    <span class="trade-ajax">
-                      <span class="trade-tooltip-wrap">
-                        <span>
-                          <span class="trade-operate-text">
-                            单位：个
-                          </span>
-                        </span>
-                      </span>
-                      <noscript>
-                      </noscript>
-                    </span>
-                  </span>
-                                    </div>
+    <aside class="m-sidebar">
+      <div class="header">
+        <p>个人中心</p>
+      </div>
+      <div class="nav">
+        <ul>
+          <li class="nav-item z-active">我的订单</li>
+          <li class="nav-item">个人信息</li>
+        </ul>
+      </div>
+    </aside>
 
-                                </div>
-                            </td>
-                            <?php if ($i == 1): ?>
-                                <td style="text-align:center;vertical-align:top;padding-top:10px;padding-bottom:10px;border-right-width:1px;border-right-style:solid;border-right-color:#E8E8E8;border-top-width:0;border-top-style:solid;border-top-color:#E8E8E8;">
-                                    <div>
-                                        <div style="font-family:verdana;font-style:normal;">
-                  <span>
-                  </span>
-                                            <span>
-                  </span>
-                                            <p>
-                                                <strong>
-                                                    <?php echo $order->amount ?> 元
-                                                </strong>
-                                            </p>
-                                            <span>
-                  </span>
-                                        </div>
-                                        <p>
-                  <span>
-                    (含运费：
-                  </span>
-                                            <span>
-                    <?php echo empty(\Yii::$app->params['expressPrice'][$order->expressid]) ? '0' : \Yii::$app->params['expressPrice'][$order->expressid] ?>
-                                                元
-                  </span>
-                                            <span>
-                  </span>
-                                            <span>
-                  </span>
-                                            <span>
-                    )
-                  </span>
-                                        </p>
+    <section class="m-order-list">
+      <div class="header">
+        <p>全部订单</p>
+      </div>
 
-                                        <div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td style="text-align:center;vertical-align:top;padding-top:10px;padding-bottom:10px;border-right-width:1px;border-right-style:solid;border-right-color:#E8E8E8;border-top-width:0;border-top-style:solid;border-top-color:#E8E8E8;" >
-                                <div>
-                                <div style="margin-bottom:3px;">
-                                    <a class="tp-tag-a"
-                                       href="<?php echo yii\helpers\Url::to(['order/check', 'orderid' => $order->orderid]) ?>">
-                                        <?php echo $order->zhstatus ?>
-                                    </a>
-                                </div>
-                                <?php if ($order->status == 220): ?>
-                                    <div>
-                                    <div style="margin-bottom:3px;position:relative">
-                    <span>
-                        <a class="tp-tag-a"
-                           href="<?php echo yii\helpers\Url::to(['order/received', 'orderid' => $order->orderid]) ?>"
-                           target="_blank">
-                        <span class="trade-operate-text">
-                          确认收货
-                        </span>
-                      <div class="expressshow"
-                           style="overflow:auto;text-align:left;font-size:12px;width:200px;height:300px;position:absolute;border:1px solid #ccc;padding:15px;background-color:#eee">快递状态</div>
-                      </a>
-                    </span>
-                                        <span>
-                        <a data="<?php echo $order->expressno ?>" class="tp-tag-a express" href="#" target="_blank">
-                        <span class="trade-operate-text">
-                          查看物流
-                        </span>
-                      <div class="expressshow"
-                           style="overflow:auto;text-align:left;font-size:12px;width:200px;height:300px;position:absolute;border:1px solid #ccc;padding:15px;background-color:#eee">查询中...</div>
-                      </a>
-                    </span>
-                                    </div>
-                                <?php endif; ?>
-                            <?php else: ?>
-                                <td style="text-align:center;vertical-align:top;padding-top:10px;padding-bottom:10px;border-right-width:1px;border-right-style:solid;border-right-color:#E8E8E8;border-top-width:0;border-top-style:solid;border-top-color:#E8E8E8;"></td>
-                                <td style="text-align:center;vertical-align:top;padding-top:10px;padding-bottom:10px;border-right-width:1px;border-right-style:solid;border-right-color:#E8E8E8;border-top-width:0;border-top-style:solid;border-top-color:#E8E8E8;"></td>
-                            <?php endif; ?>
+      <div class="order-list">
+
+        <?php foreach ( $orders as $order ) : ?>
+
+          <!-- 订单项 -->
+          <div class="m-order-item">
+
+            <div class="order-item-header f-clearfix">
+              <div class="w w1 date"><?php echo date( 'Y-m-d', $order->createtime ); ?></div>
+              <div class="w w2 order-id">
+                <span>订单号：</span>
+                <span><?php echo $order->orderid; ?></span>
+              </div>
+              <div class="w w3 order-price">
+                <span>订单总价：</span>
+                <span class="total-price"><?php echo $order->amount; ?></span>
+              </div>
+              <div class="order-status">
+
+                <?php if ( $order->status == 100 ) : ?>
+                  <span class="status">订单待支付，</span>
+                  <a class="action" href="<?php echo yii\helpers\Url::to(['order/check', 'orderid' => $order->orderid]); ?>">立即支付</a>
+                <?php elseif ( $order->status == 220 ) : ?>
+                  <span class="status">订单已发货，</span>
+                  <a class="action" href="#">确认收货</a>
+                <?php endif; ?>
+
+              </div>
+            </div>
+
+            <!-- 订单商品列表 -->       
+            <div class="product-list">
+
+              <?php foreach ( $order->products as $product ) : ?>
+                <!-- 订单商品列表项 -->
+                <div class="m-product-item">
+                  <div class="w img">
+                    <a href="<?php echo yii\helpers\Url::to(['product/detail', 'productid' => $product->productid]); ?>">
+                      <img src="<?php echo $product->cover; ?>-coversmall" alt="">
+                    </a>
+                  </div>
+                  <div class="w w2 title">
+                    <a href="<?php echo yii\helpers\Url::to(['product/detail', 'productid' => $product->productid]); ?>"><?php echo $product->title; ?></a>
+                  </div>
+                  <div class="w w3 price">
+                    <span><?php echo $product->price; ?></span>
+                  </div>
+                  <div class="w w3 num">
+                    <span>x </span>
+                    <span><?php echo $product->num; ?></span>
+                  </div>
+                  <div class="option">
+
+                    <?php if ( $order->status == 260 ) : ?>
+                      <a href="">评价商品</a>
+                    <?php endif; ?>
+                  </div>
                 </div>
-            </div>
-            </td>
-            </tr>
-            <?php $i++; ?>
-            <?php endforeach; ?>
-            </tbody>
-            </table>
-            <div>
-            </div>
-        </div>
-    </div>
-</div>
-<?php endforeach; ?>
-</div>
+                <!-- / 订单商品列表项 -->
+              <?php endforeach; ?>
 
+            </div>
+            <!-- / 订单商品列表 -->
+
+          </div>
+          <!-- / 订单项 -->
+
+        <?php endforeach; ?>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</main>
+<!-- @main end -->

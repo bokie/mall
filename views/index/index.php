@@ -1,7 +1,11 @@
 
 <!-- @slider 轮播组件 -->
 <div class="m-slider">
-
+    <div class="g-container">
+    <a href="<?php echo yii\helpers\Url::to(['product/detail', 'productid' => '7']); ?>">
+        <img src="assets/app/image/banner01.png" alt="">
+    </a>
+    </div>
 </div>
 <!-- @slider end -->
 

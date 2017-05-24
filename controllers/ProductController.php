@@ -21,11 +21,11 @@ class ProductController extends CommonController
         $params = [':cid' => $cid];
         $all = Product::find()->where(
             $where, $params
-        )->asArray()->all();
+            )->asArray()->all();
         // var_dump($all);
         $reco = Product::find()->where(
             $where . 'and isreco = \'1\'', $params
-    )->orderBy("createtime desc")->limit(5)->asArray()->all();
+            )->orderBy("createtime desc")->limit(5)->asArray()->all();
 
         // 加载模板 views/product/index
         $this->layout = "layoutIndex";
@@ -41,7 +41,7 @@ class ProductController extends CommonController
         //获取商品数据
         $product = Product::find()->where(
             "productid = :id", [':id' => $productid]
-        )->asArray()->one();
+            )->asArray()->one();
 
         $this->layout = "layoutIndex";
         return $this->render("detail", ['product' => $product]);
@@ -49,6 +49,26 @@ class ProductController extends CommonController
 
     public function actionSearch()
     {
-        //TODO
+        $keyword = Yii::$app->request->get('keyword');
+        
+
+        // var_dump( $keyword );
+
+        if ( ! $keyword == '' ) {
+            $key = '%' . $keyword . '%';
+        } else {
+            $key = $keyword;
+        }
+
+        $all = Product::find()->where(
+            'title like :keyword',
+            [':keyword' => $key ]
+            )->asArray()->all();
+        
+
+        // var_dump( $all );
+
+        $this->layout = "layoutIndex";
+        return $this->render( 'index', ['all' => $all, 'keyword' => $keyword]);
     }
 }

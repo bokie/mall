@@ -1,3 +1,7 @@
+<?php 
+	use yii\bootstrap\ActiveForm;
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +14,7 @@
 	<link rel="stylesheet" href="assets/app/css/list.css">
 	<link rel="stylesheet" href="assets/app/css/detail.css">
 	<link rel="stylesheet" href="assets/app/css/cart.css">
+	<link rel="stylesheet" href="assets/app/css/personal.css">
 
 </head>
 <body>
@@ -25,7 +30,7 @@
 						<div class="welcome">你好啊，<span><?php echo \Yii::$app->session['loginname']; ?></span></div>
 						<div><a href="<?php echo \yii\helpers\Url::to(['user/logout']); ?>">退出</a></div>
 						<div class="split"></div>
-						<div><a href="#" class="user-order">我的订单</a></div>
+						<div><a href="<?php echo \yii\helpers\Url::to(['order/index']); ?>" class="user-order">我的订单</a></div>
 					<?php else: ?>
 						<div>
 							<a href="<?php echo \yii\helpers\Url::to(['user/login']); ?>" class="login">登录</a>
@@ -41,13 +46,24 @@
 		<div class="m-tab-main">
 			<div class="g-container">
 				<div class="tool-bar">
-					<a href="<?php echo yii\helpers\Url::to( ['cart/index'] ); ?>" class="m-cart">
+					<a href="<?php echo yii\helpers\Url::to( ['cart/index'] ); ?>" class="m-cart" title="我的购物车">
 						<i id="j-iconCart" class="iconfont icon-shopcar"></i>
-						<span id="j-cartNum" class="cart-num">9</span>
+						<?php if ( $this->params['cartnum'] != '0' ) : ?>
+							<span id="j-cartNum" class="cart-num"><?php echo $this->params['cartnum']; ?></span>
+						<?php endif;?>
 					</a>
 					<div class="m-search">
-						<input type="text" class="w-search-input" placeholder="搜索">
-						<i class="iconfont icon-search"></i>
+						
+						<?php $form = ActiveForm::begin([
+							'action' => yii\helpers\Url::to( ['product/search'] ),
+							'method' => 'get',
+						]); 
+						?>
+							<input name="keyword" type="text" class="w-search-input" placeholder="搜索">
+							<button type="submit">
+								<i class="iconfont icon-search"></i>
+							</button>
+						<?php ActiveForm::end(); ?>
 					</div>
 				</div>
 			</div>
@@ -82,5 +98,6 @@
 	<script src="assets/app/js/lib/jquery-3.1.0.js"></script>
 	<script src="assets/app/js/login.js"></script>
 	<script src="assets/app/js/register.js"></script>
+	<script src="assets/app/js/cart.js"></script>
 </body>
 </html>

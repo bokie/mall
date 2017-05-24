@@ -36,9 +36,10 @@ class Order extends ActiveRecord
     {
         return [
             [['userid', 'status'], 'required', 'on' => ['add']],
-            [['addressid', 'expressid', 'amount', 'status'], 'required', 'on' => ['update']],
+            [['addressid', 'amount', 'status'], 'required', 'on' => ['update']],
             ['expressno', 'required', 'message' => '请输入快递单号', 'on' => 'send'],
             ['createtime', 'safe', 'on' => ['add']],
+            ['expressid', 'safe', 'on' => 'update'],
         ];
     }
 

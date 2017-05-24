@@ -22,6 +22,9 @@ class CartController extends CommonController
             'useremail = :name', [':name' => Yii::$app->session['loginname']]
         )->one()->userid;
 
+        $cartNum = Cart::getNum( $userid );
+        var_dump( $cartNum );
+
         // 获取当前用户的购物车数据
         $cart = Cart::find()->where(
             'userid = :uid', [':uid' => $userid]

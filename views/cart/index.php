@@ -140,5 +140,3 @@ use yii\bootstrap\ActiveForm;
         </div>      
     </main>
     <!-- @main end -->
-    <script src="assets/app/js/lib/jquery-3.1.0.js"></script>
-    <script src="assets/app/js/cart.js"></script>

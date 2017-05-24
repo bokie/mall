@@ -17,8 +17,8 @@ class Address extends ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'firstname', 'lastname', 'address', 'email', 'telephone'], 'required'],
-            [['createtime', 'company','postcode'],'safe'],
+            [['userid', 'name', 'address', 'telephone'], 'required'],
+            [['createtime', 'company', 'postcode', 'email'],'safe'],
         ];
     }
 }

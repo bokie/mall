@@ -18,4 +18,14 @@ class Cart extends ActiveRecord
             ['createtime', 'safe']
         ];
     }
+
+    public static function getNum( $userid )
+    {
+        $num = self::find()->where(
+            'userid = :uid',
+            [':uid' => $userid]
+            )->count();
+
+        return $num;
+    }
 }
