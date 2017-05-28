@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div id="pad-wrapper" class="users-list">
             <div class="row-fluid header">
-                <h3>会员列表</h3>
+                <h3>用户列表</h3>
                 <div class="span10 pull-right">
                     <a href="<?php echo yii\helpers\Url::to(['user/reg']) ?>" class="btn-flat btn-primary pull-right">
                         <span>&#43;</span>

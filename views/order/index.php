@@ -9,8 +9,12 @@
       </div>
       <div class="nav">
         <ul>
-          <li class="nav-item z-active">我的订单</li>
-          <li class="nav-item">个人信息</li>
+          <li class="nav-item z-active">
+            <a href="javascript:;">我的订单</a>
+          </li>
+          <li class="nav-item">
+          <a href="<?php echo yii\helpers\Url::to(['user/info']); ?>">个人信息</a>
+          </li>
         </ul>
       </div>
     </aside>
@@ -40,11 +44,18 @@
               <div class="order-status">
 
                 <?php if ( $order->status == 100 ) : ?>
-                  <span class="status">订单待支付，</span>
+                  <span class="describe">订单待支付，</span>
                   <a class="action" href="<?php echo yii\helpers\Url::to(['order/check', 'orderid' => $order->orderid]); ?>">立即支付</a>
                 <?php elseif ( $order->status == 220 ) : ?>
-                  <span class="status">订单已发货，</span>
-                  <a class="action" href="#">确认收货</a>
+                  <span class="describe">订单已发货，</span>
+                  <a class="action" href="<?php echo yii\helpers\Url::to([
+                    'order/received',
+                    'orderid' => $order->orderid
+                  ]); ?>">确认收货</a>
+                <?php elseif ( $order->status == 202 ) : ?>
+                  <span class="payed">订单已支付，等待发货</span>
+                <?php elseif ( $order->status == 260 ) : ?>
+                  <span class="completed">订单已完成</span>
                 <?php endif; ?>
 
               </div>
@@ -74,7 +85,7 @@
                   <div class="option">
 
                     <?php if ( $order->status == 260 ) : ?>
-                      <a href="">评价商品</a>
+                      <a href="<?php echo yii\helpers\Url::to(['product/comment', 'productid' => $product->productid]); ?>">评价商品</a>
                     <?php endif; ?>
                   </div>
                 </div>

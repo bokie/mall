@@ -40,6 +40,7 @@ class Order extends ActiveRecord
             ['expressno', 'required', 'message' => '请输入快递单号', 'on' => 'send'],
             ['createtime', 'safe', 'on' => ['add']],
             ['expressid', 'safe', 'on' => 'update'],
+            ['status', 'required', 'on' => 'statusUpdate'],
         ];
     }
 
@@ -89,7 +90,7 @@ class Order extends ActiveRecord
             'userid = :uid', [':uid' => $order->userid]
         )->one();
         if ( ! empty($user) ) {
-            $order->username = $user->username;
+            $order->username = $user->useremail;
         }
         $order->address = Address::find()->where(
             'addressid = :aid', [':aid' => $order->addressid]
@@ -101,7 +102,7 @@ class Order extends ActiveRecord
         }
         $order->zhstatus = self::$status[$order->status];
 
-        var_dump($order);
+        // var_dump($order); // 调试信息
 
         return $order;
 

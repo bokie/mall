@@ -6,6 +6,8 @@ use yii\web\Controller;
 use app\controllers\CommonController;
 use Yii;
 use app\models\Product;
+use app\models\Comment;
+use app\models\User;
 
 class ProductController extends CommonController
 {
@@ -43,8 +45,21 @@ class ProductController extends CommonController
             "productid = :id", [':id' => $productid]
             )->asArray()->one();
 
+        // 查询商品评论数据
+        $comments = Comment::find()->where(
+            'productid = :id',
+            [':id' => $productid]
+            )->asArray()->all();
+        $commentsNum = Comment::find()->where(
+            'productid = :id',
+            [':id' => $productid]
+            )->count();
+
+        // var_dump($comments);
+        // var_dump($product);
+
         $this->layout = "layoutIndex";
-        return $this->render("detail", ['product' => $product]);
+        return $this->render("detail", ['product' => $product, 'comments' => $comments, 'commentsNum' => $commentsNum]);
     }
 
     public function actionSearch()
@@ -70,5 +85,50 @@ class ProductController extends CommonController
 
         $this->layout = "layoutIndex";
         return $this->render( 'index', ['all' => $all, 'keyword' => $keyword]);
+    }
+
+    /**
+     * 商品评论
+    */
+    public function actionComment()
+    {
+        $model = new Comment;
+
+        $productid = Yii::$app->request->get( 'productid' );
+
+        $product = Product::find()->where(
+            'productid = :id',
+            ['id' => $productid]
+            )->asArray()->one();
+
+        // var_dump($product);
+        // exit();
+
+        $this->layout = "layoutIndex";
+        return $this->render( 'comment', ['product' => $product, 'model' => $model] );
+    }
+
+    public function actionAddcomment()
+    {
+        // 获取当前登录用户userid
+        $userid = User::find()->where(
+            'useremail = :name', [':name' => Yii::$app->session['loginname']]
+        )->one()->userid;
+
+         // 验证是否为POST提交
+        if ( ! Yii::$app->request->isPost ) {
+            throw new \Exception();
+        }
+        $post = Yii::$app->request->post();
+        $post['Comment']['createtime'] = time();
+        $post['Comment']['userid'] = $userid;
+
+        // var_dump($post);
+
+        // 数据库存储
+        $model = new Comment;
+        $model->load($post);
+        $model->save();
+
     }
 }

@@ -4,7 +4,7 @@
         <?php if ( isset( $keyword ) ) : ?>
             <div class="m-crumb">首页>搜索结果><span><?php echo $keyword; ?></span></div>
         <?php else : ?>
-            <div class="m-crumb">首页>分类</span></div>        
+            <div class="m-crumb">首页>衣着</span></div>        
         <?php endif; ?>
         <div class="m-goods-filter">
 

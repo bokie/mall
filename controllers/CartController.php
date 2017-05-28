@@ -23,14 +23,14 @@ class CartController extends CommonController
         )->one()->userid;
 
         $cartNum = Cart::getNum( $userid );
-        var_dump( $cartNum );
+        // var_dump( $cartNum );
 
         // 获取当前用户的购物车数据
         $cart = Cart::find()->where(
             'userid = :uid', [':uid' => $userid]
         )->asArray()->all();
 
-        var_dump($cart);
+        // var_dump($cart);
 
         // 取商品数据
         $data = [];
@@ -46,7 +46,7 @@ class CartController extends CommonController
             $data[$k]['cartid'] = $pro['cartid'];
         }
 
-        var_dump($data);
+        // var_dump($data);
 
         //指定使用的布局文件 带商品分类的layout2
         $this->layout = "layoutIndex";

@@ -48,9 +48,7 @@
 				<div class="tool-bar">
 					<a href="<?php echo yii\helpers\Url::to( ['cart/index'] ); ?>" class="m-cart" title="我的购物车">
 						<i id="j-iconCart" class="iconfont icon-shopcar"></i>
-						<?php if ( $this->params['cartnum'] != '0' ) : ?>
 							<span id="j-cartNum" class="cart-num"><?php echo $this->params['cartnum']; ?></span>
-						<?php endif;?>
 					</a>
 					<div class="m-search">
 						

@@ -70,12 +70,14 @@ use yii\bootstrap\ActiveForm;
                     <div class="my-address">
 
                         <?php foreach ( $addresses as $key => $address ) : ?>
-                            <input class="j-radio j-address" type="radio" name="address"
-                            value="<?php echo $address['addressid']; ?>"
-                            >
-                            <a href="javascript:;">
-                                <?php echo $address['name'] . " ". $address['telephone'] . " " . $address['address']; ?>
-                            </a>
+                            <div class="w-radio-group" style="display: block;">
+                                <input class="j-radio j-address" type="radio" name="address"
+                                value="<?php echo $address['addressid']; ?>"
+                                >
+                                <span style="line-height: 18px;">
+                                    <?php echo $address['name'] . " ". $address['telephone'] . " " . $address['address']; ?>
+                                </span>
+                            </div>
                         <?php endforeach; ?>
 
                     </div>
@@ -128,7 +130,7 @@ use yii\bootstrap\ActiveForm;
 
                     <input type="hidden" id="j-addressId" name="addressid" value="">
                     <input type="hidden"  name="orderid"
-                      value="<?php echo (int)\Yii::$app->request->get('orderid'); ?>" >
+                    value="<?php echo (int)\Yii::$app->request->get('orderid'); ?>" >
 
                     <?php ActiveForm::end(); ?>
 

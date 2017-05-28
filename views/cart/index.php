@@ -128,7 +128,7 @@ use yii\bootstrap\ActiveForm;
                             <span class="label">商品合计：</span><span style="color: #db4d6d;">￥</span><span class="price"><?php echo number_format( $total, 2 ); ?></span>
                         </div>
                         <div class="btn">
-                            <button class="w-button-primary">去 结 算</button>
+                            <button type="submit" class="w-button-primary">去 结 算</button>
                         </div>
                     </div>
                 </div>
