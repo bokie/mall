@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 <main class="g-goods-detail">
     <div class="g-container">
         <div class="m-crumb">
-            首页>喂养>奶粉
+            <span>首页></span><span><?php echo $cateTitle; ?>></span><span><?php echo $product['title'] ?></span>
         </div>
         <div class="m-detail-header">
             <div class="slide">

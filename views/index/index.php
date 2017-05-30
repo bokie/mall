@@ -24,7 +24,7 @@
                 <?php foreach( $data['reco'] as $pro ) : ?>
                     <div class="m-goods-item">
                         <a href="<?php echo \yii\helpers\Url::to(['product/detail', 'productid' => $pro->productid]); ?>">
-                            <span class="label">推荐商品</span>
+                            <!-- <span class="label">推荐商品</span> -->
                             <div class="item-img">
 
                                 <img src="<?php echo $pro->cover; ?>-covermiddle" alt="<?php echo $pro->title ?>">
