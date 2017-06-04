@@ -56,10 +56,10 @@ use yii\helpers\Html;
 
 										<div class="split"></div>
 
-										<a class="login-weibo">
+										<!-- <a class="login-weibo">
 											<i class="iconfont icon-weibo"></i>
 											使用微博账号登录
-										</a>
+										</a> -->
 									</div>
 								</div>
 							</div>

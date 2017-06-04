@@ -16,7 +16,7 @@ use yii\bootstrap\ActiveForm;
                 <div class="cart-header f-clearfix">
                     <div class="w w1">
                         <div class="w-chkbox">
-                            <input type="checkbox">
+                            <input type="checkbox" checked="checked">
                         </div>
                         <span>全选</span>
                     </div>
@@ -63,7 +63,7 @@ use yii\bootstrap\ActiveForm;
                         <div class="cart-item f-clearfix">
                             <div class="w w1 item-checked">
                                 <div class="w-chkbox">
-                                    <input type="checkbox">
+                                    <input type="checkbox" checked="checked">
                                 </div>
                             </div>
 

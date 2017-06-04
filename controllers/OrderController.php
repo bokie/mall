@@ -300,6 +300,8 @@ class OrderController extends CommonController
                 // return $this->render('pay', ['orderid' => $orderid]);
         }
 
+        $this->redirect(['order/index']);
+
         // 验证是否POST提交
         // if ( ! Yii::$app->request->isPost ) {
         //     throw new \Exception();

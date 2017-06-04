@@ -165,12 +165,14 @@ class ProductController extends CommonController
         $post['Comment']['createtime'] = time();
         $post['Comment']['userid'] = $userid;
 
-        // var_dump($post);
+        var_dump($post);
 
         // 数据库存储
         $model = new Comment;
         $model->load($post);
         $model->save();
+        // Cart::updateAll(['productnum' => $productnum], 'cartid = :cid', [':cid' => $cartid]);
+        $this->redirect(['order/index']);
 
     }
 }
