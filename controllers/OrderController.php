@@ -17,7 +17,7 @@ class OrderController extends CommonController
     {
         // 判断用户是否登录
         if ( Yii::$app->session['isLogin'] != 1 ) {
-            return $this->redirect(['member/auth']);
+            return $this->redirect(['user/login']);
         }
 
         // 获取用户信息
@@ -25,11 +25,11 @@ class OrderController extends CommonController
         $userid = User::find()->where(
             'username = :uname or useremail = :email',
             [':uname' => $loginname, ':email' => $loginname]
-        )->one()->userid;
+            )->one()->userid;
 
         // 查询用户订单信息
         $orders = Order::getProducts($userid);
-        var_dump($orders);
+        // var_dump($orders); // 调试信息
 
         $this->layout = "layoutIndex";
         return $this->render("index", ['orders' => $orders]);
@@ -46,26 +46,26 @@ class OrderController extends CommonController
        exit();*/
 
         //判断用户是否登录
-        if ( Yii::$app->session['isLogin'] != 1 ) {
-            return $this->redirect(['member/auth']);
-        }
+       if ( Yii::$app->session['isLogin'] != 1 ) {
+        return $this->redirect(['user/login']);
+    }
 
         // 开始一个数据库事务
-        $transaction = Yii::$app->db->beginTransaction();
+    $transaction = Yii::$app->db->beginTransaction();
 
-        try {
+    try {
             //处理POST提交数据
-            if ( Yii::$app->request->isPost ) {
-                $post = Yii::$app->request->post();
+        if ( Yii::$app->request->isPost ) {
+            $post = Yii::$app->request->post();
 
                 // 实例化一个订单数据模型
-                $ordermodel = new Order;
-                $ordermodel->scenario = "add";
+            $ordermodel = new Order;
+            $ordermodel->scenario = "add";
 
                 // 获取当前用户数据
-                $usermodel = User::find()->where(
-                    'useremail = :email',
-                    [':email' => Yii::$app->session['loginname']]
+            $usermodel = User::find()->where(
+                'useremail = :email',
+                [':email' => Yii::$app->session['loginname']]
                 )->one();
                 if ( !$usermodel ) { // 查询不到当前用户，抛出异常
                     throw new \Exception;
@@ -126,7 +126,7 @@ class OrderController extends CommonController
     {
         // 判断用户是否登录
         if ( Yii::$app->session['isLogin'] != 1 ) {
-            return $this->redirect(['member/auth']);
+            return $this->redirect(['user/login']);
         }
 
         // 获取订单初始数据
@@ -143,11 +143,11 @@ class OrderController extends CommonController
         $userid = User::find()->where(
             'username = :name or useremail = :email',
             [':name' => $loginname,':email' => $loginname]
-        )->one()->userid;
+            )->one()->userid;
         $addresses = Address::find()->where(
             'userid = :uid',
             [':uid' => $userid]
-        )->asArray()->all();
+            )->asArray()->all();
 
         // 查询订单数据
         $details = OrderDetail::find()->where(
@@ -158,7 +158,7 @@ class OrderController extends CommonController
         foreach ( $details as $detail) { // 遍历订单详情数据获取订单中每条商品信息
             $model = Product::find()->where(
                 'productid = :pid', [':pid' => $detail['productid']]
-            )->one();
+                )->one();
             $detail['title'] = $model->title;
             $detail['cover'] = $model->cover;
             $data[] = $detail;
@@ -168,8 +168,8 @@ class OrderController extends CommonController
         $express = Yii::$app->params['express'];
         $expressPrice = Yii::$app->params['expressPrice'];
 
-        var_dump($data);
-        var_dump($addresses);
+        // var_dump($data);
+        // var_dump($addresses);
 
         $this->layout = false;
         return $this->render("check", ['products' => $data, 'addresses' => $addresses]);
@@ -186,7 +186,7 @@ class OrderController extends CommonController
         try {
             // 判断用户是否登录
             if ( Yii::$app->session['isLogin'] != 1 ) {
-                return $this->redirect(['member/auth']);
+                return $this->redirect(['user/login']);
             }
 
             // 验证是否为POST提交
@@ -201,7 +201,7 @@ class OrderController extends CommonController
             $usermodel = User::find()->where(
                 'username = :name or useremail = :email',
                 [':name' => $loginname, ':email' =>$loginname]
-            )->one();
+                )->one();
             if ( ! $usermodel ) { // 用户查询数据为空，抛出异常
                 throw new \Exception();
             }
@@ -212,7 +212,7 @@ class OrderController extends CommonController
             $model = Order::find()->where(
                 'orderid = :oid and userid = :uid',
                 [':oid' => $post['orderid'], ':uid' => $userid]
-            )->one();
+                )->one();
             if ( ! $model ) { // 订单查询数据为空，抛出异常
                 throw new \Exception();
             }
@@ -223,7 +223,7 @@ class OrderController extends CommonController
             $details = OrderDetail::find()->where(
                 'orderid = :oid',
                 [':oid' => $post['orderid']]
-            )->all();
+                )->all();
             // 计算订单商品总价
             $amount = 0;
             foreach ( $details as $detail ) { // 查询订单中每条商品数据
@@ -263,16 +263,51 @@ class OrderController extends CommonController
      */
      public function actionPay()
      {
+        // 判断用户是否登录
+        if ( Yii::$app->session['isLogin'] != 1 ) {
+            return $this->redirect(['user/login']);
+        }
+
+        $post = Yii::$app->request->post();
+        var_dump( $post );
+
+
+
+        // 查询当前用户id
+        $userid = User::find()->where(
+            'useremail = :name',
+            [':name' => Yii::$app->session['loginname']]
+            )->one()->userid;
+
+        // 查询订单数据
+        $model = Order::find()->where(
+            'orderid = :oid and userid = :uid',
+            [':oid' => $post['orderid'], ':uid' => $userid]
+            )->one();
+        if ( ! $model ) { // 订单查询数据为空，抛出异常
+            throw new \Exception();
+        }
+
+        // 更新订单状态
+        $model->scenario = "statusUpdate";
+
+        $post['status'] = Order::PAYSUCCESS;
+        $data['Order'] = $post;
+
+        if ( $model->load($data) && $model->save() ) { //判断订单数据是否更新成功
+            print "订单已更新";
+                // $this->layout = false;
+                // return $this->render('pay', ['orderid' => $orderid]);
+        }
+
+        $this->redirect(['order/index']);
+
         // 验证是否POST提交
         // if ( ! Yii::$app->request->isPost ) {
         //     throw new \Exception();
         // }
-        $post = Yii::$app->request->post();
-        var_dump( $post );
 
-        
-
-     }
+    }
 
     /**
      * 用户订单确认收货操作
@@ -285,7 +320,7 @@ class OrderController extends CommonController
         $order = Order::find()->where(
             'orderid = :oid',
             [':oid' => $orderid]
-        )->one();
+            )->one();
 
         // 更改订单状态
         if ( ! empty($order) && $order->status == Order::SENDED ) {

@@ -69,7 +69,7 @@
     <!-- sidebar -->
     <div id="sidebar-nav">
         <ul id="dashboard-menu">
-            <li class="active">
+            <li class="">
                 <div class="pointer">
                     <div class="arrow"></div>
                     <div class="arrow_border"></div>

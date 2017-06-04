@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 <main class="g-goods-detail">
     <div class="g-container">
         <div class="m-crumb">
-            首页>喂养>奶粉
+            <span>首页></span><span><?php echo $cateTitle; ?>></span><span><?php echo $product['title'] ?></span>
         </div>
         <div class="m-detail-header">
             <div class="slide">
@@ -96,7 +96,7 @@ use yii\bootstrap\ActiveForm;
             <div class="m-detail-main">
                 <ul id="j-tabNav" class="tab-nav">
                     <li class="tab-nav-item z-active-bg"><a href="javascript:;">商品详情</a></li>
-                    <li class="tab-nav-item"><a href="javascript:;">商品评论(<span>0</span>)</a></li>
+                    <li class="tab-nav-item"><a href="javascript:;">商品评论(<span><?php echo $commentsNum; ?></span>)</a></li>
                 </ul>
                 <div class="tab-content">
                     <!-- 商品详情内容 -->
@@ -108,47 +108,27 @@ use yii\bootstrap\ActiveForm;
                     <!-- 商品评论内容 -->
                     <div class="m-comment-content j-tabItem" style="display: none;">
                         <ul>
+                        <?php foreach ( $comments as $comment ) : ?>
                             <li class="comment-item">
                                 <div class="user-info g-left">
                                     <div class="avatar"><img src="" alt=""></div>
                                     <div class="usrname">bokie</div>
                                 </div>
                                 <div class="slide">
-                                    <div class="content">包装很精致，还是不错的。料子手感没有很软，但也没什么味。这种颜色比较中性，非常适合送人</div>
+                                    <div class="content"><?php echo $comment['content']; ?></div>
                                     <div class="info">
                                         <div class="goods-info g-left">
                                             <span>已购买</span>
-                                            <span>儿童室内游戏帐篷</span>
-                                            <span>红色</span>
-                                            <span>L</span>
+                                            <span><?php echo $product['title']; ?></span>
                                         </div>
                                         <div class="comment-time g-right">
-                                            2017-05-01
+                                            <?php echo date( 'Y-m-d', $comment['createtime']); ?>
                                         </div>
                                     </div>
                                 </div>
+                            <?php endforeach; ?>
                             </li>
 
-                            <li class="comment-item">
-                                <div class="user-info g-left">
-                                    <div class="avatar"><img src="" alt=""></div>
-                                    <div class="usrname">bokie</div>
-                                </div>
-                                <div class="slide">
-                                    <div class="content">包装很精致，还是不错的。料子手感没有很软，但也没什么味。这种颜色比较中性，非常适合送人</div>
-                                    <div class="info">
-                                        <div class="goods-info g-left">
-                                            <span>已购买</span>
-                                            <span>儿童室内游戏帐篷</span>
-                                            <span>红色</span>
-                                            <span>L</span>
-                                        </div>
-                                        <div class="comment-time g-right">
-                                            2017-05-01
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                     <!-- / 商品评论内容 -->

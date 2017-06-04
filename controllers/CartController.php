@@ -20,24 +20,24 @@ class CartController extends CommonController
         // 获取当前登录用户的userid
         $userid = User::find()->where(
             'useremail = :name', [':name' => Yii::$app->session['loginname']]
-        )->one()->userid;
+            )->one()->userid;
 
         $cartNum = Cart::getNum( $userid );
-        var_dump( $cartNum );
+        // var_dump( $cartNum );
 
         // 获取当前用户的购物车数据
         $cart = Cart::find()->where(
             'userid = :uid', [':uid' => $userid]
-        )->asArray()->all();
+            )->asArray()->all();
 
-        var_dump($cart);
+        // var_dump($cart);
 
         // 取商品数据
         $data = [];
         foreach ( $cart as $k => $pro ) {
             $product = Product::find()->where(
                 'productid = :pid', [':pid' => $pro['productid']]
-            )->one();
+                )->one();
             $data[$k]['cover'] = $product->cover;
             $data[$k]['title'] = $product->title;
             $data[$k]['productnum'] = $pro['productnum'];
@@ -46,7 +46,7 @@ class CartController extends CommonController
             $data[$k]['cartid'] = $pro['cartid'];
         }
 
-        var_dump($data);
+        // var_dump($data);
 
         //指定使用的布局文件 带商品分类的layout2
         $this->layout = "layoutIndex";
@@ -69,7 +69,7 @@ class CartController extends CommonController
         // 获取当前登录用户userid
         $userid = User::find()->where(
             'useremail = :name', [':name' => Yii::$app->session['loginname']]
-        )->one()->userid;
+            )->one()->userid;
 
         // 获取post数据
         if ( Yii::$app->request->isPost ) {
@@ -84,21 +84,21 @@ class CartController extends CommonController
         if ( ! $model = Cart::find()->where(
             'productid = :pid and userid = :uid',
             [':pid' => $data['Cart']['productid'], ':uid' => $data['Cart']['userid']]
-        )->one() ) {
+            )->one() ) {
             $model = new Cart();
         } else {
             $data['Cart']['productnum'] = $model->productnum + $num;
-        }
+    }
 
         // 写数据库
-        $data['Cart']['createtime'] = time();
-        $model->load($data);
-        $model->save();
+    $data['Cart']['createtime'] = time();
+    $model->load($data);
+    $model->save();
 
         // 跳转到购物车页面
-        return $this->redirect(['cart/index']);
+    return $this->redirect(['cart/index']);
 
-    }
+}
 
     /**
      * @return \yii\web\Response 跳转回购物车页面
@@ -108,6 +108,16 @@ class CartController extends CommonController
         $cartid = Yii::$app->request->get("cartid");
         Cart::deleteAll('cartid = :cid', [':cid' => $cartid]);
         return $this->redirect(['cart/index']);
+    }
+
+    /**
+     * 购物车商品数量更改
+    */
+    public function actionMod()
+    {
+        $cartid = Yii::$app->request->get("cartid");
+        $productnum = Yii::$app->request->get("productnum");
+        Cart::updateAll(['productnum' => $productnum], 'cartid = :cid', [':cid' => $cartid]);
     }
 
 }

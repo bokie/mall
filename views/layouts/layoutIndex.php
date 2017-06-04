@@ -15,6 +15,8 @@
 	<link rel="stylesheet" href="assets/app/css/detail.css">
 	<link rel="stylesheet" href="assets/app/css/cart.css">
 	<link rel="stylesheet" href="assets/app/css/personal.css">
+	<script src="assets/app/js/lib/jquery-3.1.0.js"></script>
+
 
 </head>
 <body>
@@ -48,9 +50,7 @@
 				<div class="tool-bar">
 					<a href="<?php echo yii\helpers\Url::to( ['cart/index'] ); ?>" class="m-cart" title="我的购物车">
 						<i id="j-iconCart" class="iconfont icon-shopcar"></i>
-						<?php if ( $this->params['cartnum'] != '0' ) : ?>
 							<span id="j-cartNum" class="cart-num"><?php echo $this->params['cartnum']; ?></span>
-						<?php endif;?>
 					</a>
 					<div class="m-search">
 						
@@ -95,7 +95,6 @@
 
 	</footer>
 	<!-- @footer end -->
-	<script src="assets/app/js/lib/jquery-3.1.0.js"></script>
 	<script src="assets/app/js/login.js"></script>
 	<script src="assets/app/js/register.js"></script>
 	<script src="assets/app/js/cart.js"></script>

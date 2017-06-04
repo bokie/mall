@@ -29,6 +29,9 @@ class OrderController extends CommonController
         $data = $model->offset($pager->offset)->limit($pager->limit)->all();
         $data = Order::getDetail($data);
 
+        var_dump( $data );
+        
+
         $this->layout = "layout1";
         return $this->render('list', ['pager' => $pager, 'orders' => $data]);
     }
@@ -45,6 +48,7 @@ class OrderController extends CommonController
             'orderid = :oid', [':oid' => $orderid]
         )->one();
         $data = Order::getData($order);
+
 
         $this->layout = "layout1";
         return $this->render('detail', ['order' => $data]);

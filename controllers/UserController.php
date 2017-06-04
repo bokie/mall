@@ -62,4 +62,13 @@ class UserController extends CommonController
         $this->layout = false;
         return $this->render("register", ['model' => $model]);
     }
+
+    /**
+    * 用户个人中心个人信息页面
+    */
+    public function actionInfo()
+    {
+        $this->layout = "layoutIndex";
+        return $this->render( 'info' );
+    }
 }

@@ -12,10 +12,10 @@ class IndexController extends CommonController
         //获取商品数据
         $data['all'] = Product::find()->where(
             'ison = "1"'
-        )->orderBy('createtime desc')->limit(7)->all();
+        )->orderBy('createtime desc')->limit(8)->all();
         $data['reco'] = Product::find()->where(
             'isreco = "1"'
-        )->orderBy('createtime desc')->limit(7)->all();
+        )->orderBy('createtime desc')->limit(8)->all();
 
         // var_dump($data['isreco'][2]);
         //禁用默认的模板的头部和脚部

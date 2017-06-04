@@ -23,7 +23,7 @@ class AddressController extends CommonController
 
         // 判断用户是否登录
         if ( Yii::$app->session['isLogin'] != 1 ) {
-            return $this->redirect(['member/auth']);
+            return $this->redirect(['user/login']);
         }
 
         // 查询用户信息
@@ -51,7 +51,7 @@ class AddressController extends CommonController
     {
         // 判断用户是否登录
         if ( Yii::$app->session['isLogin'] != 1 ) {
-            return $this->redirect(['member/auth']);
+            return $this->redirect(['user/login']);
         }
 
         // 查询用户信息
